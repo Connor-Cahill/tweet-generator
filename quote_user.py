@@ -1,3 +1,4 @@
-import python_quote.py
+import python_quote
+
 random_python_quote()
 

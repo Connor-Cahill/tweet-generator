@@ -1,6 +1,9 @@
 import random
 
 def rearrange_string(sentence):
+  '''
+  Takes in sentence as user input and returns a random sentence with the same words
+  '''
   str_arr = sentence.split(' ')
   random_order = []
   for i in range(len(str_arr)):

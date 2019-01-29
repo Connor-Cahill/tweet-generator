@@ -14,6 +14,17 @@ def histogram(file):
       word_freq[word] = 1
   return word_freq
 
+def unique_words(hist):
+  '''
+  Given a histogram returns total count of unique words (returns Int)
+  '''
+  return len(hist.keys)
+
+def frequency(word, hist):
+  '''
+  Given a word as input returns frequency of word (reads from histogram)
+  '''
+  return hist[word]
 
 
 if __name__ == '__main__':

@@ -2,20 +2,13 @@ import random
 
 def rearrange_string(sentence):
   '''
-  Takes in sentence as user input and returns a random sentence with the same words
+Takes in sentence as user input and returns a random sentence with the same words
   '''
   str_arr = sentence.split(' ')
-  random_order = []
   for i in range(len(str_arr)):
-    rand_word = random.choice(str_arr)
-    str_arr.pop(str_arr.index(rand_word))
-    random_order.append(rand_word)
-  new_string = ' '.join(random_order)
-  return new_string
-  
-
-    
-
+    rand_int = random.randint(0, len(str_arr) - 1)
+    str_arr[rand_int], str_arr[i] = str_arr[i], str_arr[rand_int]
+  return ' '.join(str_arr)
 
 
 if __name__ == '__main__':

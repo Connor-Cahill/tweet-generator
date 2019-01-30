@@ -51,15 +51,17 @@ def histogram(file):
   '''
   Takes file as argument, reads file and counts word frequency stores freq in dict. returns a dictionary
   '''
-  word_freq = {}
+  histogram = {}
   text = open(file, 'r').read()
   words = [word for line in text.split('\n') for word in line.split(' ')]
   for word in words:
-    if word in word_freq:
-      word_freq[word] += 1
+    if word in histogram:
+      histogram[word] += 1
     else:
-      word_freq[word] = 1
-  return word_freq
+      histogram[word] = 1
+  
+  histo_to_file('histo_results.txt', histogram)
+  return histogram
 
 def unique_words(hist):
   '''
@@ -76,6 +78,16 @@ def frequency(word, hist):
   else: 
     return "The word inputted was not in histogram."
 
+def histo_to_file(file, histogram):
+  '''
+  Takes a histogram and writes it to a file
+  '''
+  with open(file, 'w+') as text_file:
+    text_file.write('\n****** NEW HISTOGRAM RESULTS *******\n')
+    for key, value in histogram.items():
+      text_file.write('{} : {}\n'.format(key, value))
+  
+  
 
 def generate_sentence(file, length):
   '''
@@ -97,11 +109,11 @@ def generate_sentence(file, length):
 
 
 if __name__ == '__main__':
-  # my_dict = histogram(input('Please input a file name: '))
-  # print(my_dict)
+  my_dict = histogram(input('Please input a file name: '))
+  print(my_dict)
   # print(listogram(input('Please input a file name: (listogram implementation)')))
   # print(tupleagram(input('Please input a file name: (tupleagram implementation)')))
   # print(unique_words(my_dict))
   # print(frequency('word', my_dict))
-  print(generate_sentence(input('Please input a text file: '), 5))
+  # print(generate_sentence(input('Please input a text file: '), 5))
 

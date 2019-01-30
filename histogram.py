@@ -5,8 +5,24 @@ def histogram(file):
   '''
   Takes file as argument, reads file and counts word frequency stores freq in dict. returns a dictionary
   '''
-  
-  
+  histogram = []
+  text = open(file, 'r').read()
+  words = [word for line in text.split('\n') for word in line.split(' ')]
+  for word in words:
+    add_word_to_histogram(histogram, word)
+  return histogram
+
+
+def add_word_to_histogram(histogram, word):
+  '''
+  Adds a word or freq to tuple in histogram list
+  '''
+  for i in range(len(histogram)):
+    if histogram[i][0] == word:
+      histogram[i] = (word, histogram[i][1] + 1)
+      return
+  histogram.append((word, 1))
+    
 
 ## histogram list of lists implementation
 # def histogram(file):
@@ -17,19 +33,20 @@ def histogram(file):
 #   text = open(file, 'r').read()
 #   words = [word for line in text.split('\n') for word in line.split(' ')]
 #   for word in words:
-#     addWordToHistogram(histogram, word)
+#     add_word_to_histogram(histogram, word)
 #   return histogram
 
-# def addWordToHistogram(histogram, word):
+# def add_word_to_histogram(histogram, word):
 #   '''
-#   adds to the word freq of a list in histogram of lists
+#   Adds a word or freq to list in histogram list
 #   '''
-#   for lst in listogram:
-#     if lst[0] == word:
-#       lst[1] += 1
+#   for arr in histogram:
+#     if arr[0] == word:
+#       arr[1] += 1
 #       return
-#   listogram.append([word, 1])
-## histogram dictionary way
+#   histogram.append([word, 1])
+
+## histogram dictionary implementation
 # def histogram(file):
 #   '''
 #   Takes file as argument, reads file and counts word frequency stores freq in dict. returns a dictionary

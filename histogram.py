@@ -1,7 +1,7 @@
 import re
 
-##histogram list of tuples implementation
-def histogram(file):
+#histogram list of tuples implementation
+def tupleagram(file):
   '''
   Takes file as argument, reads file and counts word frequency stores freq in dict. returns a dictionary
   '''
@@ -9,11 +9,11 @@ def histogram(file):
   text = open(file, 'r').read()
   words = [word for line in text.split('\n') for word in line.split(' ')]
   for word in words:
-    add_word_to_histogram(histogram, word)
+    add_word_to_tupleagram(histogram, word)
   return histogram
 
 
-def add_word_to_histogram(histogram, word):
+def add_word_to_tupleagram(histogram, word):
   '''
   Adds a word or freq to tuple in histogram list
   '''
@@ -24,43 +24,42 @@ def add_word_to_histogram(histogram, word):
   histogram.append((word, 1))
     
 
-## histogram list of lists implementation
-# def histogram(file):
-#   '''
-#   Takes file as argument, reads file and counts word frequency stores freq in dict. returns a dictionary
-#   '''
-#   histogram = []
-#   text = open(file, 'r').read()
-#   words = [word for line in text.split('\n') for word in line.split(' ')]
-#   for word in words:
-#     add_word_to_histogram(histogram, word)
-#   return histogram
+# histogram list of lists implementation
+def listogram(file):
+  '''
+  Takes file as argument, reads file and counts word frequency stores freq in dict. returns a dictionary
+  '''
+  histogram = []
+  text = open(file, 'r').read()
+  words = [word for line in text.split('\n') for word in line.split(' ')]
+  for word in words:
+    add_word_to_listogram(histogram, word)
+  return histogram
 
-# def add_word_to_histogram(histogram, word):
-#   '''
-#   Adds a word or freq to list in histogram list
-#   '''
-#   for arr in histogram:
-#     if arr[0] == word:
-#       arr[1] += 1
-#       return
-#   histogram.append([word, 1])
+def add_word_to_listogram(histogram, word):
+  '''
+  Adds a word or freq to list in histogram list
+  '''
+  for arr in histogram:
+    if arr[0] == word:
+      arr[1] += 1
+      return
+  histogram.append([word, 1])
 
-## histogram dictionary implementation
-# def histogram(file):
-#   '''
-#   Takes file as argument, reads file and counts word frequency stores freq in dict. returns a dictionary
-#   '''
-#   # pattern = re.compile(r"[^a-zA-Z0-9]") trying to implement this to clean string from file
-#   word_freq = {}
-#   word_file = open(file, 'r').read()
-#   word_arr = word_file.split(' ')
-#   for word in word_arr:
-#     if word in word_freq:
-#       word_freq[word] += 1
-#     else:
-#       word_freq[word] = 1
-#   return word_freq
+# histogram dictionary implementation
+def histogram(file):
+  '''
+  Takes file as argument, reads file and counts word frequency stores freq in dict. returns a dictionary
+  '''
+  word_freq = {}
+  text = open(file, 'r').read()
+  words = [word for line in text.split('\n') for word in line.split(' ')]
+  for word in words:
+    if word in word_freq:
+      word_freq[word] += 1
+    else:
+      word_freq[word] = 1
+  return word_freq
 
 def unique_words(hist):
   '''
@@ -98,6 +97,8 @@ def generate_sentence(hist, length):
 if __name__ == '__main__':
   my_dict = histogram(input('Please input a file name: '))
   print(my_dict)
+  # print(listogram(input('Please input a file name: (listogram implementation)')))
+  # print(tupleagram(input('Please input a file name: (tupleagram implementation)')))
   # print(unique_words(my_dict))
   # print(frequency('word', my_dict))
   # print('gen sentence****', generate_sentence(my_dict, 5))

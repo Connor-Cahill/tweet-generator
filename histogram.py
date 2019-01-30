@@ -1,4 +1,4 @@
-import re
+import re, random
 
 #histogram list of tuples implementation
 def tupleagram(file):
@@ -77,15 +77,17 @@ def frequency(word, hist):
     return "The word inputted was not in histogram."
 
 
-def generate_sentence(hist, length):
+def generate_sentence(file, length):
   '''
-  Given a histogram and length of sentence, generates a random sentence with "randomness" weighted towards frequency
+  Given a file and length of sentence, generates a random sentence with "randomness" weighted towards frequency
   '''
-  word_arr = []
-  rand_sentence = []
-  for key in hist:
-    for _ in range(hist[key]):
-      word_arr.append(key)
+  random_sentence = []
+  text = open(file, 'r').read()
+  words = [word for line in text.split('\n') for word in line.split(' ')]
+  for _ in range(length):
+    word = random.choice(words)
+    random_sentence.append(word)
+  return ' '.join(random_sentence)
   
 
   
@@ -95,10 +97,11 @@ def generate_sentence(hist, length):
 
 
 if __name__ == '__main__':
-  my_dict = histogram(input('Please input a file name: '))
-  print(my_dict)
+  # my_dict = histogram(input('Please input a file name: '))
+  # print(my_dict)
   # print(listogram(input('Please input a file name: (listogram implementation)')))
   # print(tupleagram(input('Please input a file name: (tupleagram implementation)')))
   # print(unique_words(my_dict))
   # print(frequency('word', my_dict))
-  # print('gen sentence****', generate_sentence(my_dict, 5))
+  print(generate_sentence(input('Please input a text file: '), 5))
+

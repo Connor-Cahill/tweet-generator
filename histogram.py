@@ -6,8 +6,9 @@ def tupleagram(file):
   Takes file as argument, reads file and counts word frequency stores freq in dict. returns a dictionary
   '''
   histogram = []
-  text = open(file, 'r').read()
-  words = [word for line in text.split('\n') for word in line.split(' ')]
+  while open(file, 'r') as word_file:
+    text = word_file.read()
+    words = [word for line in text.split('\n') for word in line.split(' ')]
   for word in words:
     add_word_to_tupleagram(histogram, word)
   return histogram
@@ -30,8 +31,9 @@ def listogram(file):
   Takes file as argument, reads file and counts word frequency stores freq in dict. returns a dictionary
   '''
   histogram = []
-  text = open(file, 'r').read()
-  words = [word for line in text.split('\n') for word in line.split(' ')]
+  with open(file, 'r') as word_file:
+    text = word_file.read()
+    words = [word for line in text.split('\n') for word in line.split(' ')]
   for word in words:
     add_word_to_listogram(histogram, word)
   return histogram
@@ -52,8 +54,9 @@ def histogram(file):
   Takes file as argument, reads file and counts word frequency stores freq in dict. returns a dictionary
   '''
   histogram = {}
-  text = open(file, 'r').read()
-  words = [word for line in text.split('\n') for word in line.split(' ')]
+  with open(file, 'r') as word_file:
+    text = word_file.read()
+    words = [word for line in text.split('\n') for word in line.split(' ')]
   for word in words:
     if word in histogram:
       histogram[word] += 1
@@ -94,8 +97,9 @@ def generate_sentence(file, length):
   Given a file and length of sentence, generates a random sentence with "randomness" weighted towards frequency
   '''
   random_sentence = []
-  text = open(file, 'r').read()
-  words = [word for line in text.split('\n') for word in line.split(' ')]
+  with open(file,  'r') as word_file:
+    text = word_file.read()
+    words = [word for line in text.split('\n') for word in line.split(' ')]
   for _ in range(length):
     word = random.choice(words)
     random_sentence.append(word)

@@ -1,4 +1,4 @@
-import re, random, string
+import re, random, string, sys
 
 #histogram list of tuples implementation
 def tupleagram(file):
@@ -115,10 +115,12 @@ def fix_text(text):
   
 
 if __name__ == '__main__':
-  my_dict = histogram(input('Please input a file name: '))
+  file = sys.argv[1]
+  # num_words = sys.argv[2] //  this will be for when I use random_sentence_gen
+  my_dict = histogram(file)
   print(my_dict)
-  # print(listogram(input('Please input a file name: (listogram implementation)')))
-  # print(tupleagram(input('Please input a file name: (tupleagram implementation)')))
+  # print(listogram(file)
+  # print(tupleagram(file)
   # print(unique_words(my_dict))
   # print(frequency('word', my_dict))
   # print(generate_sentence(input('Please input a text file: '), 5))

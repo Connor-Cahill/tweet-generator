@@ -6,7 +6,7 @@ def tupleagram(file):
   Takes file as argument, reads file and counts word frequency stores freq in dict. returns a dictionary
   '''
   histogram = []
-  while open(file, 'r') as word_file:
+  with open(file, 'r') as word_file:
     text = word_file.read()
     words = [word for line in text.split('\n') for word in line.split(' ')]
   for word in words:
@@ -32,7 +32,7 @@ def listogram(file):
   '''
   histogram = []
   with open(file, 'r') as word_file:
-    text = word_file.read()
+    text = word_file.read().lower()
     words = [word for line in text.split('\n') for word in line.split(' ')]
   for word in words:
     add_word_to_listogram(histogram, word)
@@ -55,7 +55,7 @@ def histogram(file):
   '''
   histogram = {}
   with open(file, 'r') as word_file:
-    text = word_file.read()
+    text = word_file.read().lower()
     words = [word for line in text.split('\n') for word in line.split(' ')]
   for word in words:
     if word in histogram:

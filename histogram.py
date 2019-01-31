@@ -1,4 +1,4 @@
-import re, random
+import re, random, string
 
 #histogram list of tuples implementation
 def tupleagram(file):
@@ -55,7 +55,8 @@ def histogram(file):
   '''
   histogram = {}
   with open(file, 'r') as word_file:
-    text = word_file.read().lower()
+    file_string = word_file.read()
+    text = fix_text(file_string)
     words = [word for line in text.split('\n') for word in line.split(' ')]
   for word in words:
     if word in histogram:
@@ -92,25 +93,26 @@ def histo_to_file(file, histogram):
   
   
 
-def generate_sentence(file, length):
+def generate_sentence(histogram, length):
   '''
-  Given a file and length of sentence, generates a random sentence with "randomness" weighted towards frequency
+  Given a histogram, creates a random sentence with "randomness" weighted towards freq
   '''
-  random_sentence = []
-  with open(file,  'r') as word_file:
-    text = word_file.read()
-    words = [word for line in text.split('\n') for word in line.split(' ')]
-  for _ in range(length):
-    word = random.choice(words)
-    random_sentence.append(word)
-  return ' '.join(random_sentence)
+  unique = unique_words(histogram)
+  pass
   
 
   
+  
+def fix_text(text):
+  '''
+  takes in takes and strips puncaution and make all words lowercase
+  '''
+  new_text = text.lower()
+  translator = str.maketrans('', '', string.punctuation)
+  ret = new_text.translate(translator)
+  return ret
 
   
-
-
 
 if __name__ == '__main__':
   my_dict = histogram(input('Please input a file name: '))

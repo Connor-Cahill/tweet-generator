@@ -25,6 +25,38 @@ def add_word_to_tupleagram(histogram, word):
   histogram.append((word, 1))
     
 
+## Implementation of a "countagram" 
+def countagram(file):
+  '''
+  Takes file as argument and returns a histogram as odd data structure
+  '''
+  histogram = [(1, [])]
+  with open(file) as word_file:
+    file_string = word_file.read().lower()
+    text = fix_text(file_string)
+
+    words = [word for line in text.split('\n') for word in line.split(' ')]
+  for word in words:
+    add_to_countagram(histogram, word)
+  return histogram
+
+def add_to_countagram(histogram, word):
+  '''
+   Adds a word or freq to tuple in histogram list
+  '''
+  for i in range(len(histogram) - 1):
+    if word in histogram[i][1]:
+      print(word, 'word is in hist already')
+      histogram[i][1].remove(word)
+      if len(histogram) > i:
+        histogram[i + 1][1].append(word)
+        return
+      else:
+        histogram.append((i + 1, []))
+        histogram[i + 1][1].append(word)
+        return
+  histogram[0][1].append(word)
+    
 # histogram list of lists implementation
 def listogram(file):
   '''
@@ -98,7 +130,12 @@ def generate_sentence(histogram, length):
   Given a histogram, creates a random sentence with "randomness" weighted towards freq
   '''
   unique = unique_words(histogram)
-  pass
+  words = [k for k, v in histogram.items()]
+  weights_dict = {}
+  for word in words:
+    weight = histogram[word] / unique
+    weights_dict[word] = weight
+  return weights_dict
   
 
   
@@ -117,11 +154,14 @@ def fix_text(text):
 if __name__ == '__main__':
   file = sys.argv[1]
   # num_words = sys.argv[2] //  this will be for when I use random_sentence_gen
-  my_dict = histogram(file)
+  # my_dict = histogram(file)
+  my_dict = countagram(file)
   print(my_dict)
+
+  # print(my_dict)
   # print(listogram(file)
   # print(tupleagram(file)
   # print(unique_words(my_dict))
   # print(frequency('word', my_dict))
-  # print(generate_sentence(input('Please input a text file: '), 5))
+  # print(generate_sentence(my_dict, 5))
 

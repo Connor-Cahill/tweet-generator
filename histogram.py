@@ -38,17 +38,17 @@ def countagram(file):
     words = [word for line in text.split('\n') for word in line.split(' ')]
   for word in words:
     add_to_countagram(histogram, word)
+  
   return histogram
 
 def add_to_countagram(histogram, word):
   '''
    Adds a word or freq to tuple in histogram list
   '''
-  for i in range(len(histogram) - 1):
+  for i in range(len(histogram)):
     if word in histogram[i][1]:
-      print(word, 'word is in hist already')
       histogram[i][1].remove(word)
-      if len(histogram) > i:
+      if len(histogram) > i + 1:
         histogram[i + 1][1].append(word)
         return
       else:

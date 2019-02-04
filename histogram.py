@@ -137,9 +137,19 @@ def generate_sentence(histogram, length):
     weights_dict[word] = weight
   return weights_dict
   
+## sorts list of list histogram
+def sort_histogram(histogram):
+  '''
+  Sorts list histogram by its values (frequency)
+  '''  
+  for i in range(len(histogram)):
+    for j in range(len(histogram)):
+      if histogram[j][1] > histogram[i][1]:
+        histogram[j], histogram[i] = histogram[i], histogram[j]
+  return histogram
+  
 
-  
-  
+
 def fix_text(text):
   '''
   takes in takes and strips puncaution and make all words lowercase
@@ -155,9 +165,10 @@ if __name__ == '__main__':
   file = sys.argv[1]
   # num_words = sys.argv[2] //  this will be for when I use random_sentence_gen
   # my_dict = histogram(file)
-  my_dict = countagram(file)
-  print(my_dict)
-
+  my_dict = listogram(file)
+  # print(my_dict)
+  print(sort_histogram(my_dict))
+  # my_dict = countagram(file)
   # print(my_dict)
   # print(listogram(file)
   # print(tupleagram(file)

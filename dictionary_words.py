@@ -1,4 +1,5 @@
-import random
+import random, itertools
+
 
 
 def reverse_word(word):
@@ -31,9 +32,18 @@ Takes num words as argument and returns n random words from dictionary
     rand_word_arr.append(rand_word)
   return ' '.join(rand_word_arr)
 
+
+def anagram_generator(string):
+  '''
+  Takes in a string and returns array of anagrams of string
+  '''
+  ret = [''.join(perm) for perm in itertools.permutations(string)]
+  return ret
+
 if __name__ == '__main__':
   # num_words = int(input('How many words in the sentence? '))
   # print(words_from_dict(num_words))
-  print(reverse_word('hello'))
+  # print(reverse_word('hello'))
+  print(anagram_generator('hello'))
 
 

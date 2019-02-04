@@ -124,19 +124,36 @@ def histo_to_file(file, histogram):
       text_file.write('{} : {}\n'.format(key, value))
   
   
-
+### Random sentence generator and word pick with freq weights
 def generate_sentence(histogram, length):
   '''
   Given a histogram, creates a random sentence with "randomness" weighted towards freq
   '''
-  unique = unique_words(histogram)
-  words = [k for k, v in histogram.items()]
-  weights_dict = {}
-  for word in words:
-    weight = histogram[word] / unique
-    weights_dict[word] = weight
-  return weights_dict
-  
+  random_sentence = []
+  for i in range(length):
+    word = pick_word(histogram)
+    random_sentence.append(word)
+  return ' '.join(random_sentence)
+
+def pick_word(histogram):
+  '''
+  Given a histogram function will pick a random word based on the frequency weights
+  '''
+  accumulator = 0
+  separators = []
+  words = [word for word in histogram.keys()]
+  # creates a list of ints that act as separators for weights
+  for _, weight in histogram.items():
+    accumulator += weight
+    separators.append(accumulator)
+  rand = random.randint(0, accumulator)
+  ## returns the word at index of the weight in 
+  #seperators list that is greater than rand
+  for i, s in enumerate(separators):
+    if rand <= s:
+      return words[i]
+
+
 ## sorts list of list histogram
 def sort_histogram(histogram):
   '''
@@ -164,10 +181,10 @@ def fix_text(text):
 if __name__ == '__main__':
   file = sys.argv[1]
   # num_words = sys.argv[2] //  this will be for when I use random_sentence_gen
-  # my_dict = histogram(file)
-  my_dict = listogram(file)
+  my_dict = histogram(file)
+  # my_dict = listogram(file)
   # print(my_dict)
-  print(sort_histogram(my_dict))
+  # print(sort_histogram(my_dict))
   # my_dict = countagram(file)
   # print(my_dict)
   # print(listogram(file)
@@ -175,4 +192,6 @@ if __name__ == '__main__':
   # print(unique_words(my_dict))
   # print(frequency('word', my_dict))
   # print(generate_sentence(my_dict, 5))
+  # print(pick_word(my_dict))
+  print(generate_sentence(my_dict, 7))
 

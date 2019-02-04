@@ -23,7 +23,7 @@ def auto_complete(string_base):
     text = word_file.read()
     words = [word for word in text.split('\n')]
   for word in words:
-    if string_base in word:
+    if string_base == word[:len(string_base)]:
       suggestions.append(word)
   return 'Suggested Words:\n{}'.format('\n-'.join(suggestions))
     

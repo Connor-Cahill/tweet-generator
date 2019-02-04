@@ -45,5 +45,6 @@ if __name__ == '__main__':
   # print(words_from_dict(num_words))
   # print(reverse_word('hello'))
   print(anagram_generator('hello'))
+  
 
 

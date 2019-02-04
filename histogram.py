@@ -123,8 +123,9 @@ def histo_to_file(file, histogram):
     for key, value in histogram.items():
       text_file.write('{} : {}\n'.format(key, value))
   
-  
+############  
 ### Random sentence generator and word pick with freq weights
+###############
 def generate_sentence(histogram, length):
   '''
   Given a histogram, creates a random sentence with "randomness" weighted towards freq
@@ -154,6 +155,36 @@ def pick_word(histogram):
       return words[i]
 
 
+### Generate sentence listogram implementation
+def random_sentence_lol(listogram, length):
+  '''
+  Takes in a listogram and creates a random sentences base on freq weights
+  '''
+  rand_sentence = []
+  for i in range(length):
+    word = pick_word_listogram(listogram)
+    rand_sentence.append(word)
+  return ' '.join(rand_sentence)
+
+## for list of lists histogram (same as other pick_word function just for list of lists)
+def pick_word_listogram(listogram):
+  '''
+  Takes a listogram and picks a word using frequency as weight
+  '''
+  accumulator = 0
+  seperators = []
+  words = [lst[0] for lst in listogram]
+  weights = [lst[1] for lst in listogram]
+
+  for weight in weights:
+    accumulator += weight
+    seperators.append(accumulator)
+
+  rand = random.randint(0, accumulator)
+  for i, s in enumerate(seperators):
+    if rand <= s:
+      return words[i]
+
 ## sorts list of list histogram
 def sort_histogram(histogram):
   '''
@@ -180,8 +211,10 @@ def fix_text(text):
 
 if __name__ == '__main__':
   file = sys.argv[1]
+  my_dict = listogram(file)
+  print(random_sentence_lol(my_dict, 6))
   # num_words = sys.argv[2] //  this will be for when I use random_sentence_gen
-  my_dict = histogram(file)
+  # my_dict = histogram(file)
   # my_dict = listogram(file)
   # print(my_dict)
   # print(sort_histogram(my_dict))
@@ -193,5 +226,5 @@ if __name__ == '__main__':
   # print(frequency('word', my_dict))
   # print(generate_sentence(my_dict, 5))
   # print(pick_word(my_dict))
-  print(generate_sentence(my_dict, 7))
+  # print(generate_sentence(my_dict, 7))
 

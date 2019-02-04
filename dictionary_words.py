@@ -1,5 +1,20 @@
 import random
 
+
+def reverse_word(word):
+  '''
+  Takes in a word/sentence and reverses it
+  '''
+  new_word = ''
+  i = 0
+  while abs(i) < len(word):
+    i -= 1
+    new_word += word[i]
+  return new_word
+
+
+
+
 def words_from_dict(num_words):
   '''
 Takes num words as argument and returns n random words from dictionary
@@ -17,6 +32,8 @@ Takes num words as argument and returns n random words from dictionary
   return ' '.join(rand_word_arr)
 
 if __name__ == '__main__':
-  num_words = int(input('How many words in the sentence? '))
-  print(words_from_dict(num_words))
+  # num_words = int(input('How many words in the sentence? '))
+  # print(words_from_dict(num_words))
+  print(reverse_word('hello'))
+
 

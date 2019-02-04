@@ -14,7 +14,19 @@ def reverse_word(word):
   return new_word
 
 
-
+def auto_complete(string_base):
+  '''
+  Takes in a string base and suggests words to you 
+  '''
+  suggestions = []
+  with open('/usr/share/dict/web2') as word_file:
+    text = word_file.read()
+    words = [word for word in text.split('\n')]
+  for word in words:
+    if string_base in word:
+      suggestions.append(word)
+  return 'Suggested Words:\n{}'.format('\n-'.join(suggestions))
+    
 
 def words_from_dict(num_words):
   '''
@@ -44,7 +56,8 @@ if __name__ == '__main__':
   # num_words = int(input('How many words in the sentence? '))
   # print(words_from_dict(num_words))
   # print(reverse_word('hello'))
-  print(anagram_generator('hello'))
-  
+  # print(anagram_generator('hello'))
+  print(auto_complete('hell'))
+
 
 

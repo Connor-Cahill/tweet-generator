@@ -44,7 +44,7 @@ Takes num words as argument and returns n random words from dictionary
     rand_word_arr.append(rand_word)
   return ' '.join(rand_word_arr)
 
-
+## Basic Anagram Generator
 def anagram_generator(string):
   '''
   Takes in a string and returns array of anagrams of string
@@ -52,12 +52,30 @@ def anagram_generator(string):
   ret = [''.join(perm) for perm in itertools.permutations(string)]
   return ret
 
+##REAL Anagram generator
+def real_anagram(string):
+  '''
+  Takes in a string in returns all anagrams that are real word
+  '''
+  with open('/usr/share/dict/web2') as word_file:
+    text = word_file.read()
+    words = [word for word in text.split('\n')]
+  ret  = []
+  for perm in itertools.permutations(string):
+    my_word = ''.join(perm)
+    for word in words:
+      if my_word == word:
+        ret.append(my_word)
+  return set(ret)
+ 
+
 if __name__ == '__main__':
   # num_words = int(input('How many words in the sentence? '))
   # print(words_from_dict(num_words))
   # print(reverse_word('hello'))
-  # print(anagram_generator('hello'))
-  print(auto_complete('hell'))
+  # print(anagram_generator('something'))
+  print(real_anagram('lleho'))
+  # print(auto_complete('hell'))
 
 
 

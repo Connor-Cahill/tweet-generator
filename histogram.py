@@ -196,7 +196,20 @@ def sort_histogram(histogram):
         histogram[j], histogram[i] = histogram[i], histogram[j]
   return histogram
   
-
+def test_pick_word(histo):
+  '''
+  Tests the pick_word function to see if weighting is accurate
+  '''
+  test = {}
+  for i in range(10000):
+    word = pick_word(histo)
+    if word in test:
+      test[word] += 1
+    else:
+      test[word] = 1
+  histo_to_file('test_histo.txt', test)
+  return test
+      
 
 def fix_text(text):
   '''
@@ -211,7 +224,8 @@ def fix_text(text):
 
 if __name__ == '__main__':
   file = sys.argv[1]
-  my_dict = tupleagram(file)
-  print(my_dict)
-  # print(generate_sentence(my_dict, 7))
+  my_dict = histogram(file)
+  # print(my_dict)
+  test_pick_word(my_dict)
+  # print(generate_sentence(my_dict, 10))
 

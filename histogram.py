@@ -7,11 +7,11 @@ def tupleagram(file):
   '''
   histogram = []
   with open(file, 'r') as word_file:
-    text = word_file.read()
+    text = fix_text(word_file.read())
     words = [word for line in text.split('\n') for word in line.split(' ')]
   for word in words:
     add_word_to_tupleagram(histogram, word)
-  return histogram
+  return sort_histogram(histogram)
 
 
 def add_word_to_tupleagram(histogram, word):
@@ -34,7 +34,6 @@ def countagram(file):
   with open(file) as word_file:
     file_string = word_file.read().lower()
     text = fix_text(file_string)
-
     words = [word for line in text.split('\n') for word in line.split(' ')]
   for word in words:
     add_to_countagram(histogram, word)
@@ -64,11 +63,12 @@ def listogram(file):
   '''
   histogram = []
   with open(file, 'r') as word_file:
-    text = word_file.read().lower()
+    text_file = word_file.read().lower()
+    text = fix_text(text_file)
     words = [word for line in text.split('\n') for word in line.split(' ')]
   for word in words:
     add_word_to_listogram(histogram, word)
-  return histogram
+  return sort_histogram(histogram)
 
 def add_word_to_listogram(histogram, word):
   '''
@@ -211,20 +211,7 @@ def fix_text(text):
 
 if __name__ == '__main__':
   file = sys.argv[1]
-  my_dict = listogram(file)
-  print(random_sentence_lol(my_dict, 6))
-  # num_words = sys.argv[2] //  this will be for when I use random_sentence_gen
-  # my_dict = histogram(file)
-  # my_dict = listogram(file)
-  # print(my_dict)
-  # print(sort_histogram(my_dict))
-  # my_dict = countagram(file)
-  # print(my_dict)
-  # print(listogram(file)
-  # print(tupleagram(file)
-  # print(unique_words(my_dict))
-  # print(frequency('word', my_dict))
-  # print(generate_sentence(my_dict, 5))
-  # print(pick_word(my_dict))
+  my_dict = tupleagram(file)
+  print(my_dict)
   # print(generate_sentence(my_dict, 7))
 

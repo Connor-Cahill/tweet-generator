@@ -8,8 +8,7 @@ def index():
     return render_template('main.html')
 
 @app.route('/tweets')
-def send_tweet():
+def tweets():
   my_dict = h.histogram('histo_text.txt')
   tweet = h.generate_sentence(my_dict, 15)
-  print(tweet)
   return jsonify({ 'tweet': tweet })

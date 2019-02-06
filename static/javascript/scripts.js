@@ -4,8 +4,8 @@ function setQuote() {
   .then(res => res.json())
   .then((tweet) => {
     contentArea.innerHTML = tweet.tweet
-    const utterance = new SpeechSynthesisUtterance(tweet.tweet);
-    window.speechSynthesis.speak(utterance);
+    // const utterance = new SpeechSynthesisUtterance(tweet.tweet);
+    // window.speechSynthesis.speak(utterance);
   })
   .catch(err => console.log(err));
 }

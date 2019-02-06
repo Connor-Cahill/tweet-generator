@@ -1,10 +1,15 @@
-from flask import Flask
+from flask import Flask, jsonify, render_template
 import histogram as h
 
 app = Flask(__name__)
 
 @app.route('/')
-def triggerSentence():
+def index():
+    return render_template('main.html')
+
+@app.route('/tweets')
+def send_tweet():
   my_dict = h.histogram('histo_text.txt')
-  sentence = h.generate_sentence(my_dict, 15)
-  return str(sentence)
+  tweet = h.generate_sentence(my_dict, 15)
+  print(tweet)
+  return jsonify({ 'tweet': tweet })

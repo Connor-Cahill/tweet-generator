@@ -1,6 +1,7 @@
 
 body {
   font-size: 16px;
+  font-family: 'Raleway', sans-serif;
 }
 
 .index-container {
@@ -28,6 +29,8 @@ body {
 
 .index-header {
   font-size: 2em;
+  font-family: 'Staatliches', cursive;
+  letter-spacing: 4px;
 }
 
 #quote {

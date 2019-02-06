@@ -1,4 +1,8 @@
 
+body {
+  font-size: 16px;
+}
+
 .index-container {
   display: flex;
   flex-direction: row;
@@ -9,8 +13,38 @@
 
 .index-card {
   width: 60%;
+  margin-top: 10%;
+  height: 400px;
+  border: solid gray thin;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px;
+  align-items: center;
+  background-color: #144cde;
+  color: white;
+  border-radius: 16px;
 }
 
 .index-header {
-  margin-top: 120px;
+  font-size: 2em;
+}
+
+#quote {
+  font-size: 1.2em;
+}
+
+.index-btn {
+  width: 80%;
+  height: 32px;
+  background: none;
+  border: solid white;
+  color: white;
+  font-size: 1.2em;
+}
+
+.index-btn:hover {
+  background-color: #E1682D;
+  border: none;
+  cursor: pointer;
 }

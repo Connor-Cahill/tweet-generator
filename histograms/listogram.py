@@ -33,8 +33,27 @@ class Listogram(list, Histogram):
         return lst[1] ## lst[1] hold freq value
       else:
         print('Word not in listogram');
+
+  def print_listogram(self):
+    for lst in self:
+      print('Type: {} - Tokens: {}'.format(lst[0], lst[1]))
   
+  def sort_listogram(self):
+    ''' Takes in listogram as input and sorts it by frequency '''
+    for i in range(len(self)):
+      for j in range(len(self)):
+        # checking the freq value in listogram (comparing)
+        if self[j][1] > self[i][1]:
+          self[j], self[i] = self[i], self[j]
+def main():
+  ''' Runs some test stuff on listogram class '''
+  pass 
+
+if __name__ == '__main__':
   
+
+  
+
 
 
   

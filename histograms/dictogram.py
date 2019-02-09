@@ -3,15 +3,15 @@ import re, random, string, sys
 class Dictogram(dict):
   ''' Dictogram is a histogram implemented as a subclass of dict class '''
 
-  def __init__(self, text=None):
+  def __init__(self, file=None):
     ''' initialize a new dictogram with a string of text '''
     super(Dictogram, self).__init__() # initializes as a new dict 
     # **Add properties Tokens and Types to easily reference uniques and all words**
     self.types = 0  # Types are unique words
     self.tokens = 0 # Tokens are appearances of words (total_words)
     # * count words in the given text
-    if text is not None:
-      words = self.clean_up_text(text)
+    if file is not None:
+      words = self.create_text(file)
       for word in words:
         self.add_to_count(word)
     
@@ -19,7 +19,6 @@ class Dictogram(dict):
   def add_to_count(self, word):
     ''' Checks if word is in dictogram and either adds it or adds to frequency count '''
     self.tokens += 1
-    print('Something is happening i promise')
     if word in self:
       self[word] += 1
     else:
@@ -33,13 +32,15 @@ class Dictogram(dict):
     else:
       return 0
   
-  def clean_up_text(self, text):
+  def create_text(self, file):
     ''' Texts in text and removes special chars and newlines for dictogram '''
-    new_text = text.lower()
-    translator = str.maketrans('', '', string.punctuation)
-    ret = new_text.translate(translator)
-    ret = ret.split(' ')
-    return ret
+    with open(file) as word_file:
+      text = word_file.read()
+      new_text = text.lower()
+      translator = str.maketrans('', '', string.punctuation)
+      new_text = new_text.translate(translator)
+    words = [word for line in new_text.split('\n') for word in line.split(' ')]
+    return words
   
 
   def to_file(self, file):
@@ -49,16 +50,18 @@ class Dictogram(dict):
       for key, value in self.items():
         text_file.write('{} : {}\n'.format(key, value))
 
-
+  def print_dictogram(self):
+    ''' Prints the dictograms types and tokens to terminal '''
+    for types, tokens in self.items():
+      print('Type: {} - Tokens: {}'.format(types, tokens))
+    
 
 
 def main():
   ''' runs some testing for Dictogram class '''
   file = sys.argv[1]
-
   my_dict = Dictogram(file)
-
-  my_dict.to_file('dicto_results.txt')
+  my_dict.print_dictogram()
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 import re, random, string, sys
+from histogram import Histogram
 
-class Dictogram(dict):
+class Dictogram(dict, Histogram):
   ''' Dictogram is a histogram implemented as a subclass of dict class '''
 
   def __init__(self, file=None):
@@ -32,16 +33,6 @@ class Dictogram(dict):
     else:
       return 0
   
-  def create_text(self, file):
-    ''' Texts in text and removes special chars and newlines for dictogram '''
-    with open(file) as word_file:
-      text = word_file.read()
-      new_text = text.lower()
-      translator = str.maketrans('', '', string.punctuation)
-      new_text = new_text.translate(translator)
-    words = [word for line in new_text.split('\n') for word in line.split(' ')]
-    return words
-  
 
   def to_file(self, file):
     ''' Takes dictogram and writes it to inputted file '''
@@ -56,12 +47,13 @@ class Dictogram(dict):
       print('Type: {} - Tokens: {}'.format(types, tokens))
     
 
-
 def main():
   ''' runs some testing for Dictogram class '''
   file = sys.argv[1]
   my_dict = Dictogram(file)
   my_dict.print_dictogram()
+  print(my_dict)
+  print(my_dict['of'])
 
 
 if __name__ == "__main__":

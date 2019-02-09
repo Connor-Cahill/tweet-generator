@@ -1,3 +1,2 @@
 
 ****** NEW HISTOGRAM RESULTS *******
-histotexttxt : 1

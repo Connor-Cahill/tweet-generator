@@ -16,17 +16,18 @@ class Listogram(list, Histogram):
       for word in words:
         if len(self) == 0:
           self.append([word, 1])
-        for lst in self:
-          self.add_to(lst, word)
+        else:
+            self.add_to(word)
   
-  def add_to(self, lst, word):
+  def add_to(self, word):
     ''' given words either adds to frequency or adds word in listogram '''
     self.tokens += 1
-    if lst[0] == word:
-      lst[1] += 1
-    else:
-      self.append([word, 1]) # if word not in list, append an inner list for word
-      self.types += 1
+    for lst in self:
+      if lst[0] == word:
+        lst[1] += 1
+        break
+    self.append([word, 1]) # if word not in list, append an inner list for word
+    self.types += 1
 
   def frequency(self, word):
     ''' returns the frequency of a word in a listogram '''
@@ -47,12 +48,13 @@ class Listogram(list, Histogram):
         # checking the freq value in listogram (comparing)
         if self[j][1] > self[i][1]:
           self[j], self[i] = self[i], self[j]
+    return self
 
 def main():
   ''' Runs some test stuff on listogram class '''
   file = sys.argv[1]
   my_listo = Listogram(file)
-  print(my_listo)
+  print(my_listo.sort_listogram)
 
 
 if __name__ == '__main__':

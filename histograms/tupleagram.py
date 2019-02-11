@@ -44,7 +44,7 @@ def test_repeats(tupleagram):
   """ Takes in tupleagram and tests to make sure types are duplicated """
   for i in range(len(tupleagram)):
     for j in range(len(tupleagram)):
-      if tupleagram[i][0] == tupleagram[j][0]:
+      if tupleagram[i][0] == tupleagram[j][0] and i != j:
         print('ERROR: There are duplicate types in tupleagram!')
         return
   print('All good')
@@ -55,6 +55,7 @@ def main():
   file = sys.argv[1]
   my_tup = Tupleagram(file)
   sorted_tup = my_tup.sort_listogram()  ## Using sort_listogram from listogram class
+  # my_tup.to_file('test.txt')
   # print(sorted_tup)
   test_repeats(my_tup)
 

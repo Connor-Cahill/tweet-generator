@@ -54,7 +54,8 @@ def main():
   ''' Runs some test stuff on listogram class '''
   file = sys.argv[1]
   my_listo = Listogram(file)
-  print(my_listo.sort_listogram)
+  sorted_listo = my_listo.sort_listogram()
+  print(sorted_listo)
 
 
 if __name__ == '__main__':

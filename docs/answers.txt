@@ -1,0 +1,11 @@
+Answers from questions asked at Code Review:
+
+Question 1: Most of the logic for your app is in 1 file right now. 
+This is confusing, how can we break this up into more smaller files?
+
+Answer: By breaking up the different histogram implementations into their own files it will break up the confusion.
+
+Question 2: No use of inheritence or classes, Where can we add more OOP concepts into this project?
+
+Answer: 
+I can break up my different histogram implementations into classes and use inheritence among them.

@@ -25,7 +25,7 @@ class Listogram(list, Histogram):
     for lst in self:
       if lst[0] == word:
         lst[1] += 1
-        break
+        return
     self.append([word, 1]) # if word not in list, append an inner list for word
     self.types += 1
 
@@ -50,12 +50,20 @@ class Listogram(list, Histogram):
           self[j], self[i] = self[i], self[j]
     return self
 
+  def to_file(self, file):
+    """Takes listogram and writes it to file """
+    with open(file, 'w') as write_file:
+      for i in range(len(self)):
+        write_file.write('Type: {}, Tokens: {}\n'.format(self[i][0], self[i][1]))
+
+
 def main():
   ''' Runs some test stuff on listogram class '''
   file = sys.argv[1]
   my_listo = Listogram(file)
   sorted_listo = my_listo.sort_listogram()
-  print(sorted_listo)
+  my_listo.to_file('test.txt')
+  # print(sorted_listo)
 
 
 if __name__ == '__main__':

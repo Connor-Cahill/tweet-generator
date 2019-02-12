@@ -8,23 +8,25 @@ class Dictogram(dict, Histogram):
     ''' initialize a new dictogram with a string of text '''
     super(Dictogram, self).__init__() # initializes as a new dict 
     # **Add properties Tokens and Types to easily reference uniques and all words**
-    self.types = 0  # Types are unique words
+    self.types = 0 # Types are unique words
     self.tokens = 0 # Tokens are appearances of words (total_words)
     # * count words in the given text
+    ## NOTE: if working with a file instead of list you can use self.create_text() method
     if file is not None:
-      words = self.create_text(file)
-      for word in words:
-        self.add_to_count(word)
+      for word in file:
+        self.add_count(word)
+
     
 
-  def add_to_count(self, word):
+  def add_count(self, word, count=1):
     ''' Checks if word is in dictogram and either adds it or adds to frequency count '''
-    self.tokens += 1
+    self.tokens += count
     if word in self:
-      self[word] += 1
+      self[word] += count
     else:
-      self[word] = 1
       self.types += 1
+      self[word] = count
+      
     
   def frequency(self, word):
     ''' Checks frequency of word in dictogram '''
@@ -45,6 +47,17 @@ class Dictogram(dict, Histogram):
     ''' Prints the dictograms types and tokens to terminal '''
     for types, tokens in self.items():
       print('Type: {} - Tokens: {}'.format(types, tokens))
+  
+  def print_histogram(word_list):
+    print('word list: {}'.format(word_list))
+    # Create a dictogram and display its contents
+    histogram = Dictogram(word_list)
+    print('dictogram: {}'.format(histogram))
+    print('{} tokens, {} types'.format(histogram.tokens, histogram.types))
+    for word in word_list[-2:]:
+        freq = histogram.frequency(word)
+        print('{!r} occurs {} times'.format(word, freq))
+    print()
     
 
 def main():

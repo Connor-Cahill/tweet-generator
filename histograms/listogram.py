@@ -12,21 +12,18 @@ class Listogram(list, Histogram):
     self.tokens = 0
     #* If file is not empty, create listogram
     if file is not None:
-      words = self.create_text(file)  ## method is part of histogram class
-      for word in words:
-        if len(self) == 0:
-          self.append([word, 1])
-        else:
-            self.add_to(word)
+      # words = self.create_text(file)  ## method is part of histogram class
+      for word in file:
+        self.add_count(word)
   
-  def add_to(self, word):
+  def add_count(self, word, count=1):
     ''' given words either adds to frequency or adds word in listogram '''
-    self.tokens += 1
+    self.tokens += count
     for lst in self:
       if lst[0] == word:
-        lst[1] += 1
+        lst[1] += count
         return
-    self.append([word, 1]) # if word not in list, append an inner list for word
+    self.append([word, count]) # if word not in list, append an inner list for word
     self.types += 1
 
   def frequency(self, word):
@@ -34,8 +31,20 @@ class Listogram(list, Histogram):
     for lst in self:
       if lst[0] == word:
         return lst[1] ## lst[1] hold freq value
-      else:
-        print('Word not in listogram');
+    return 0
+  
+  def __contains__(self, word):
+    """ Returns bool whether word is in listogram """
+    for lst in self:
+      if lst[0] == word:
+        return True
+    return False
+  
+  def _index(self, target):
+    """ Takes a target word and returns index # """
+    for i, lst in enumerate(self):
+      if lst[0] == target:
+        return i
 
   def print_listogram(self):
     for lst in self:
@@ -55,6 +64,19 @@ class Listogram(list, Histogram):
     with open(file, 'w') as write_file:
       for i in range(len(self)):
         write_file.write('Type: {}, Tokens: {}\n'.format(self[i][0], self[i][1]))
+
+
+
+def print_histogram(word_list):
+    print('word list: {}'.format(word_list))
+    # Create a listogram and display its contents
+    histogram = Listogram(word_list)
+    print('listogram: {}'.format(histogram))
+    print('{} tokens, {} types'.format(histogram.tokens, histogram.types))
+    for word in word_list[-2:]:
+        freq = histogram.frequency(word)
+        print('{!r} occurs {} times'.format(word, freq))
+    print()
 
 
 def main():

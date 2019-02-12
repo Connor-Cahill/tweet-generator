@@ -19,25 +19,22 @@ class Tupleagram(Listogram):
     self.tokens = 0
     #* if file not empty create tupleagram with file
     if file is not None:
-      words = self.create_text(file)
-      for word in words:
-        if len(self) == 0:
-          self.append((word, 1)) 
-        else:
-          self.add_to(word)
+      # words = self.create_text(file)
+      for word in file:
+        self.add_count(word)
     
   #* NOTE: this method was overridden to work with appending tuples instead of lists
-  def add_to(self, word):
+  def add_count(self, word, count=1):
     """Takes a word and adds to tupleagram or frequency if word in tupleagram """
-    self.tokens += 1 # add to token count with every word given
+    self.tokens += count # add to token count with every word given
     for i, tup in enumerate(self):
       if word == tup[0]:
-        num = tup[1]
+        num = tup[1] + count
         self.pop(i)
-        self.append((word, num + 1)) # increment previous val of num + 1
+        self.append((word, num)) # increment previous val of num 
         return
-    self.append((word, 1))
     self.types += 1 # add types count if unique word
+    self.append((word, count))
 
 
 def test_repeats(tupleagram):

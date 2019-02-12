@@ -31,10 +31,11 @@ class Tupleagram(Listogram):
       if word == tup[0]:
         num = tup[1] + count
         self.pop(i)
-        self.append((word, num)) # increment previous val of num 
+        self.insert(i, (word, num)) # inserts new tuple to replace old tuple
         return
-    self.types += 1 # add types count if unique word
     self.append((word, count))
+    self.types += 1 # add types count if unique word
+
 
 
 def test_repeats(tupleagram):

@@ -94,11 +94,6 @@ class LinkedList(object):
             return None # Quality is not in linked list so we return none
           current_node = current_node.next  # reassinging current_node to the next node in linked list
 
-          
-
-        
-
-
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
         TODO: Best case running time: O(???) Why and under what conditions?

@@ -76,7 +76,6 @@ class LinkedList(object):
         self.size += 1 #  increment size of linked list counter
         next_node = self.head # gets value of current first and stores as next_node
         self.head = new_node  # sets the new_node as the head
-        print(self.head)
         new_node.next = next_node # sets the new_node's pointer towards the previous head (next_node)
         if self.tail is None:
           self.tail = new_node
@@ -85,9 +84,9 @@ class LinkedList(object):
         """Return an item from this linked list satisfying the given quality.
         TODO: Best case running time: O(1) if the quality is the head or tail nodes data
         TODO: Worst case running time: O(n) we have to loop through every node"""
-        if self.head.data == quality: # Check if the head node's data is what we are looking for 
+        if quality(self.head.data) # Check if the head node's data is what we are looking for 
           return self.head.data # if it is return it and break the function
-        if self.tail.data == quality: # Same as above but checking tail pointer
+        if quality(self.tail.data): # Same as above but checking tail pointer
           return self.tail.data
         cur_node = self.head
         while cur_node is not None:
@@ -96,33 +95,26 @@ class LinkedList(object):
           cur_node = cur_node.next
         return None
 
-        current_node = self.head  # Assign first node to current_node var
-        while current_node is not None:  # loop through linkedList while current node's next pointer is not None
-          if current_node.data == quality:  # if current nodes data equals quality, return it
-            return current_node.data
-          current_node = current_node.next  # reassinging current_node to the next node in linked list
-        return None #! What am I supposed to do? What is this methods purpose?
-
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
         TODO: Best case running time: O(1) If item is head node's data
         TODO: Worst case running time: O(n) we have to loop through all nodes"""
-        # Hint: raise ValueError('Item not found: {}'.format(item))
-        if self.is_empty():
-          raise ValueError('Item not found: {}'.format(item))
-        if item == self.head.data:
-          cur = self.head
+        # if self.is_empty(): #check if linked list is empty 
+        #   raise ValueError('Item not found: {}'.format(item))
+        if item == self.head.data:  # is item the head?
+          cur = self.head 
           self.head = cur.next # assigning head to the current head node's next
           self.size -= 1 #  decrement linked list size property
           return  # break func O(1)
         prev_node = self.head
         cur_node = self.head.next # assign 2nd node in linked list to cur_node
         while cur_node is not None:  # iterate through linked list while cur node is not none
-          print(self)
           if cur_node.data == item: # if cur_node's data = item:
-            if cur_node == self.tail:
-              self.tail = prev_node
             prev_node.next = cur_node.next #  assign pointer of previous to pointer of current_node's next 
+            if prev_node.next is None:  # if prev_node is last in list make tail
+              self.tail = prev_node # assign prev_node as tail
+            # if self.tail is not None and self.tail.data == item:  
+            #   self.tail = None
             self.size -= 1  # decrement size property of linked list
             return  # break da function
           prev_node = cur_node  # update previous node to = cur_node
@@ -166,3 +158,15 @@ if __name__ == '__main__':
     test_linked_list()
     # ll = LinkedList()
     # ll.prepend('purple')
+    # ll.append('black')
+    # ll.prepend('blue')
+    # ll.prepend('seven')
+    # ll.append('eight')
+    # print(ll)
+    # ll.delete('blue')
+    # ll.delete('purple')
+    # ll.delete('eight')
+    # print(ll)
+    # print('tail pointer: ', ll.tail)
+    # print('head pointer: ', ll.head)
+

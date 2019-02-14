@@ -89,6 +89,12 @@ class LinkedList(object):
           return self.head.data # if it is return it and break the function
         if self.tail.data == quality: # Same as above but checking tail pointer
           return self.tail.data
+        cur_node = self.head
+        while cur_node is not None:
+          if quality(cur_node.data):
+            return cur_node.data
+          cur_node = cur_node.next
+        return None
 
         current_node = self.head  # Assign first node to current_node var
         while current_node is not None:  # loop through linkedList while current node's next pointer is not None

@@ -58,24 +58,28 @@ class LinkedList(object):
     def append(self, item):
         """Insert the given item at the tail of this linked list.
         TODO: Running time: O(1) because we have the tail pointer and just need to readjust 2 pointers"""
-        new_node = Node() # Creates new node
+        new_node = Node(item) # Creates new node
         self.size += 1 #  increment size of linkedlist counter
-        new_node.data = item # gives new_node data of item (argument)
         cur_last = self.tail  # stores value of current tail to cur_val
         self.tail = new_node  # changes the tail to the new_node
-        cur_last.next = new_node  # adds the new_node to the cur_lasts next pointer
+        if cur_last is not None:
+          cur_last.next = new_node  # adds the new_node to the cur_lasts next pointer
+        if self.head is None:
+          self.head = new_node
 
         
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list.
         TODO: Running time: O(1) Because we have a head pointer so we only need to adjust 2 pointers"""
-        new_node = Node() # create new node
+        new_node = Node(item) # create new node
         self.size += 1 #  increment size of linked list counter
-        new_node.data = item  # set nodes data to item
         next_node = self.head # gets value of current first and stores as next_node
         self.head = new_node  # sets the new_node as the head
+        print(self.head)
         new_node.next = next_node # sets the new_node's pointer towards the previous head (next_node)
+        if self.tail is None:
+          self.tail = new_node
 
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality.
@@ -87,21 +91,41 @@ class LinkedList(object):
           return self.tail.data
 
         current_node = self.head  # Assign first node to current_node var
-        for i in range(self.size):  # iterate over size of the linked list
+        while current_node is not None:  # loop through linkedList while current node's next pointer is not None
           if current_node.data == quality:  # if current nodes data equals quality, return it
             return current_node.data
-          if current_node.next == None:  # if current_node.next = None, we have iterated over all items 
-            return None # Quality is not in linked list so we return none
           current_node = current_node.next  # reassinging current_node to the next node in linked list
+        return None #! What am I supposed to do? What is this methods purpose?
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
-        TODO: Best case running time: O(???) Why and under what conditions?
-        TODO: Worst case running time: O(???) Why and under what conditions?"""
-        # TODO: Loop through all nodes to find one whose data matches given item
-        # TODO: Update previous node to skip around node with matching data
-        # TODO: Otherwise raise error to tell user that delete has failed
+        TODO: Best case running time: O(1) If item is head node's data
+        TODO: Worst case running time: O(n) we have to loop through all nodes"""
         # Hint: raise ValueError('Item not found: {}'.format(item))
+        if self.is_empty():
+          raise ValueError('Item not found: {}'.format(item))
+        if item == self.head.data:
+          cur = self.head
+          self.head = cur.next # assigning head to the current head node's next
+          self.size -= 1 #  decrement linked list size property
+          return  # break func O(1)
+        prev_node = self.head
+        cur_node = self.head.next # assign 2nd node in linked list to cur_node
+        while cur_node is not None:  # iterate through linked list while cur node is not none
+          print(self)
+          if cur_node.data == item: # if cur_node's data = item:
+            if cur_node == self.tail:
+              self.tail = prev_node
+            prev_node.next = cur_node.next #  assign pointer of previous to pointer of current_node's next 
+            self.size -= 1  # decrement size property of linked list
+            return  # break da function
+          prev_node = cur_node  # update previous node to = cur_node
+          cur_node = cur_node.next  # get cur_node's next and set to cur_node
+        raise ValueError('Item not found: {}'.format(item)) # Value not in linked list. throws an error
+
+
+
+
 
 
 def test_linked_list():
@@ -134,3 +158,5 @@ def test_linked_list():
 
 if __name__ == '__main__':
     test_linked_list()
+    # ll = LinkedList()
+    # ll.prepend('purple')

@@ -50,16 +50,17 @@ class Markov_Chain(Dictogram):
 
 def main():
   """ Calls some markov chain methods """
-  with open('histo_text.txt') as file:
-    text = file.read()
-    new_text = text.lower()
-    translator = str.maketrans('', '', string.punctuation)
-    new_text = new_text.translate(translator)
-  m_chain = Markov_Chain(new_text)
+  # with open('histo_text.txt') as file:
+  #   text = file.read()
+  #   new_text = text.lower()
+  #   translator = str.maketrans('', '', string.punctuation)
+  #   new_text = new_text.translate(translator)
+  m_chain = Markov_Chain('red fish blue fish one fish two fish')
+  print(m_chain)
   # print(m_chain.pick_word_from(m_chain['fish']))
   # for _, v in enumerate(m_chain.keys()):
   #   m_chain.pick_word_from(m_chain[v])
-  print(m_chain.generate_sentence(7))
+  # print(m_chain.generate_sentence(20))
 
 
 if __name__ == "__main__":

@@ -77,45 +77,47 @@ class LinkedList(object):
         next_node = self.head # gets value of current first and stores as next_node
         self.head = new_node  # sets the new_node as the head
         new_node.next = next_node # sets the new_node's pointer towards the previous head (next_node)
-        if self.tail is None:
-          self.tail = new_node
+        if self.tail is None: # if the tail pointer is nothing (list was empty)
+          self.tail = new_node  # set tail pointer towards newly prepended element
 
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality.
         TODO: Best case running time: O(1) if the quality is the head or tail nodes data
         TODO: Worst case running time: O(n) we have to loop through every node"""
-        if quality(self.head.data) # Check if the head node's data is what we are looking for 
+        if quality(self.head.data): # Check if the head node's data is what we are looking for 
           return self.head.data # if it is return it and break the function
         if quality(self.tail.data): # Same as above but checking tail pointer
-          return self.tail.data
-        cur_node = self.head
-        while cur_node is not None:
-          if quality(cur_node.data):
-            return cur_node.data
-          cur_node = cur_node.next
-        return None
+          return self.tail.data #return tail's data 
+        cur_node = self.head  # get first node in list
+        while cur_node is not None: # loop through list while the current node isn't None
+          if quality(cur_node.data):  # Check if cur_node's value is what we want
+            return cur_node.data 
+          cur_node = cur_node.next  # Grab the next node and keep looping
+        return None # value wasnt in list, return nothing
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
         TODO: Best case running time: O(1) If item is head node's data
         TODO: Worst case running time: O(n) we have to loop through all nodes"""
-        # if self.is_empty(): #check if linked list is empty 
-        #   raise ValueError('Item not found: {}'.format(item))
+        if self.tail is None and self.head is None: # Check if tail and head are None
+          raise ValueError('Linked List is empty')  # Raise error because linked list is empty
         if item == self.head.data:  # is item the head?
-          cur = self.head 
+          cur = self.head # attach head node to cur Var
+          if cur.next is None:  # if next node is None 
+            self.tail = None # list is empty so set self.tail to None
           self.head = cur.next # assigning head to the current head node's next
           self.size -= 1 #  decrement linked list size property
           return  # break func O(1)
-        prev_node = self.head
+        prev_node = self.head # Update the prev 
         cur_node = self.head.next # assign 2nd node in linked list to cur_node
         while cur_node is not None:  # iterate through linked list while cur node is not none
           if cur_node.data == item: # if cur_node's data = item:
             prev_node.next = cur_node.next #  assign pointer of previous to pointer of current_node's next 
             if prev_node.next is None:  # if prev_node is last in list make tail
               self.tail = prev_node # assign prev_node as tail
-            # if self.tail is not None and self.tail.data == item:  
-            #   self.tail = None
             self.size -= 1  # decrement size property of linked list
+            if self.head is None:
+              self.tail = None
             return  # break da function
           prev_node = cur_node  # update previous node to = cur_node
           cur_node = cur_node.next  # get cur_node's next and set to cur_node
@@ -155,18 +157,36 @@ def test_linked_list():
 
 
 if __name__ == '__main__':
-    test_linked_list()
-    # ll = LinkedList()
-    # ll.prepend('purple')
-    # ll.append('black')
-    # ll.prepend('blue')
-    # ll.prepend('seven')
-    # ll.append('eight')
-    # print(ll)
-    # ll.delete('blue')
-    # ll.delete('purple')
-    # ll.delete('eight')
-    # print(ll)
-    # print('tail pointer: ', ll.tail)
-    # print('head pointer: ', ll.head)
+    # test_linked_list()
+    ll = LinkedList()
+    ll.prepend('purple')
+    ll.append('black')
+    ll.prepend('blue')
+    ll.prepend('seven')
+    ll.append('eight')
+    print(ll)
+    ll.delete('blue')
+    ll.delete('purple')
+    ll.delete('eight')
+    print(ll)
+    ll.prepend('eleven')
+    ll.prepend('another one')
+    ll.prepend('data')
+    print(ll)
+    print('tail pointer: ', ll.tail)
+    print('head pointer: ', ll.head)
+    ll.delete('data')
+    ll.delete('eleven')
+    ll.delete('seven')
+    print(ll)
+    print('TAIL: ', ll.tail)
+    print('HEAD: ', ll.head)
+    ll.delete('black')
+    print(ll)
+    print('TAIL: ', ll.tail)
+    print('HEAD: ', ll.head)
+    ll.delete('another one')
+    print(ll)
+    print('TAIL: ', ll.tail)
+    print('HEAD: ', ll.head)
 

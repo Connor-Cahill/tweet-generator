@@ -55,24 +55,25 @@ class DoublyLinkedList(LinkedList):
     """ deletes an item from linked list """
     if self.head is None and self.tail is None: # check if linked list is empty
       raise ValueError('List is empty') # if yes, throw error
-    if item == self.head.data:  # check if item is head
-      self.size -= 1  # decrement size counter
-      del_node = self.head  # grab value of head_node
-      next_node = del_node.next # grab value of next node in list
-      next_node.prev = None # set next_nodes previous pointer to None
-      self.head = next_node # set self.head to next node
+    if item == self.head.data: # If item is the head
+      if self.head.next is not None:  # check if head's next node is empty or not
+        self.head = self.head.next # Set head to be next item
+        self.head.prev = None # Set new head's previous to be None
+      else: # If self.head.next is None : empty list
+        self.head = None  # clear head
+        self.tail = None  # clear tail
+        self.size = 0 # reset counter
       return  # break function
     cur_node = self.head.next # grab value of node to start looping
     while cur_node is not None: # while node is not None
       if cur_node.data == item: # if current node's data is item
-        prev = cur_node.prev  # grab previous node in list
-        next_node = cur_node.next # grab next node in list
+        if cur_node is not self.tail: # check if cur_n
+          cur_node.next.prev = cur_node.prev # grab next node in list
+          prev.next = next_node # setting the next pointer of previous node to next_node
+        else:
+          self.tail = cur_node.prev
         self.size -= 1  # decrement size counter
-        prev.next = next_node # point previous nodes next pointer to next node 
-        if prev.next is None: # if previous next pointer points towards none
-          self.tail = prev  # set it as tail
-        next_node.prev = prev # points next_node's previous pointer towards the previous node
-        return  # break func!
+        return
       cur_node = cur_node.next  # grab next node in list
     raise ValueError('Item not found: {}'.format(item)) # Value not in linked list. throws an error
 
@@ -81,6 +82,24 @@ def test_list():
   ll = DoublyLinkedList()
   ll.append('Cat')
   print(ll)
+  ll.prepend('yellow')
+  ll.append('pink')
+  print(ll)
+  print('HEAD', ll.head)
+  print('TAIL', ll.tail)
+  ll.delete('yellow')
+  print(ll)
+  print(ll.head)
+  print(ll.tail)
+  ll.delete('Cat')
+  ll.delete('pink')
+  print(ll)
+  print(ll.head)
+  print(ll.tail)
+
+
+
+  
 
 
 if __name__ == "__main__":

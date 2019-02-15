@@ -49,7 +49,7 @@ class Stack:
     ret_string = '' # create return string
     node = self.head #  grab value of first node
     while node is not None: # loop while node is not node
-      ret_string += '[ {} ]'.format(node.data) # append data to return string 
+      ret_string += '[ {} ] ---> '.format(node.data) # append data to return string 
       node = node.next  # reassign node to next node in stack
     return ret_string
 

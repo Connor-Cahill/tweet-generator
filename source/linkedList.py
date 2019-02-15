@@ -67,8 +67,6 @@ class LinkedList(object):
         if self.head is None:
           self.head = new_node
 
-        
-
     def prepend(self, item):
         """Insert the given item at the head of this linked list.
         TODO: Running time: O(1) Because we have a head pointer so we only need to adjust 2 pointers"""
@@ -94,6 +92,17 @@ class LinkedList(object):
             return cur_node.data 
           cur_node = cur_node.next  # Grab the next node and keep looping
         return None # value wasnt in list, return nothing
+    
+    def replace(self, item, new_item):
+      """ given an item in linked list replaces it """
+      node = self.head 
+      while node is not None:
+        if node.data == item:
+          node.data = new_item
+          return 
+        node = node.next
+      raise ValueError('Item not in linked list: {}'.format(item))
+
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
@@ -165,28 +174,30 @@ if __name__ == '__main__':
     ll.prepend('seven')
     ll.append('eight')
     print(ll)
-    ll.delete('blue')
-    ll.delete('purple')
-    ll.delete('eight')
+    ll.replace('eight', 'Blue Bunny')
     print(ll)
-    ll.prepend('eleven')
-    ll.prepend('another one')
-    ll.prepend('data')
-    print(ll)
-    print('tail pointer: ', ll.tail)
-    print('head pointer: ', ll.head)
-    ll.delete('data')
-    ll.delete('eleven')
-    ll.delete('seven')
-    print(ll)
-    print('TAIL: ', ll.tail)
-    print('HEAD: ', ll.head)
-    ll.delete('black')
-    print(ll)
-    print('TAIL: ', ll.tail)
-    print('HEAD: ', ll.head)
-    ll.delete('another one')
-    print(ll)
-    print('TAIL: ', ll.tail)
-    print('HEAD: ', ll.head)
+    # ll.delete('blue')
+    # ll.delete('purple')
+    # ll.delete('eight')
+    # print(ll)
+    # ll.prepend('eleven')
+    # ll.prepend('another one')
+    # ll.prepend('data')
+    # print(ll)
+    # print('tail pointer: ', ll.tail)
+    # print('head pointer: ', ll.head)
+    # ll.delete('data')
+    # ll.delete('eleven')
+    # ll.delete('seven')
+    # print(ll)
+    # print('TAIL: ', ll.tail)
+    # print('HEAD: ', ll.head)
+    # ll.delete('black')
+    # print(ll)
+    # print('TAIL: ', ll.tail)
+    # print('HEAD: ', ll.head)
+    # ll.delete('another one')
+    # print(ll)
+    # print('TAIL: ', ll.tail)
+    # print('HEAD: ', ll.head)
 

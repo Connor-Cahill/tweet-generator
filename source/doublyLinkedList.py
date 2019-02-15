@@ -64,6 +64,8 @@ class DoublyLinkedList:
     self.head = new_node  # point head pointer towards new node
     cur_head.prev = new_node  # set cur_head's previous pointer towards new node
     new_node.next = cur_head  # set new node's next pointer towards the previous cur_head
+  
+  
 
   
 

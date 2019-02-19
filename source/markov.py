@@ -53,6 +53,7 @@ class Markov_Chain(Dictogram):
     words = [word for word in self.keys()]  # create list of words in markov_chain
     sentence = '' # create empty sentence
     word = random.choice(self.sentence_starters)  # grab random starting word
+    sentence += word
     while self[word] != "###":  # while word isn't end token
       word = self.pick_word_from(self[word])  # pick random word
       sentence += ' ' + word  # append word to sentence
@@ -73,7 +74,7 @@ def main():
   # print(m_chain.pick_word_from(m_chain['fish']))
   # for _, v in enumerate(m_chain.keys()):
   #   m_chain.pick_word_from(m_chain[v])
-  # print(m_chain.generate_sentence())
+  print(m_chain.generate_sentence())
 
 
 if __name__ == "__main__":

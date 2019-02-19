@@ -1,4 +1,5 @@
 from dictogram import Dictogram
+import nltk
 import string, random
 
 class Markov_Chain(Dictogram):
@@ -7,15 +8,22 @@ class Markov_Chain(Dictogram):
     """Initiates new instance of Markov Chain class """
     super(Markov_Chain, self).__init__() # creates new instance of Markov Chain
     self.sentence_starters = Dictogram()
+    self.sentence_enders = Dictogram()
     if text is not None:
-      self.create(text)
+      sentences = nltk.sent_tokenize(text)
+      for sent in sentences:
+        sent = sent.replace('\n', ' ')
+        self.create(sent)
       
 
   #First order Markov chain compile
-  def create(self, text):
+  def create(self, sentence):
     """creates a first order markov chain """
-    words = [word for line in text.split('\n') for word in line.split(' ')] # Split sentence into list of words 
-    for i in range(len(words) - 1): ## -1 to account for word after 
+    # words = [word for line in text.split('\n') for word in line.split(' ')] # Split sentence into list of words 
+    words = sentence.split(' ')
+    self.sentence_starters.add_count(words[0])  # runs add_count method on sentence starters dictogram
+    self.sentence_enders.add_count(words[-1]) # same as above but for sentence enders 
+    for i in range(1, len(words) - 2): ## -1 to account for word after 
       if words[i] not in self:
         self[words[i]] = Dictogram()
       self[words[i]].add_count(words[i + 1])
@@ -50,13 +58,14 @@ class Markov_Chain(Dictogram):
 
 def main():
   """ Calls some markov chain methods """
-  # with open('histo_text.txt') as file:
-  #   text = file.read()
-  #   new_text = text.lower()
-  #   translator = str.maketrans('', '', string.punctuation)
-  #   new_text = new_text.translate(translator)
-  m_chain = Markov_Chain('red fish blue fish one fish two fish')
-  print(m_chain)
+  with open('histo_text.txt') as file:
+    text = file.read()
+    # new_text = text.lower()
+    # new_text = new_text.translate(translator)
+  m_chain = Markov_Chain(text)
+  # print(m_chain)
+  print('STARTERS: ', m_chain.sentence_starters)
+  print('ENDERS: ', m_chain.sentence_enders)
   # print(m_chain.pick_word_from(m_chain['fish']))
   # for _, v in enumerate(m_chain.keys()):
   #   m_chain.pick_word_from(m_chain[v])

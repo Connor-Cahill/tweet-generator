@@ -103,6 +103,16 @@ class LinkedList(object):
         node = node.next
       raise ValueError('Item not in linked list: {}'.format(item))
 
+    def iterate(self):
+      """ allows for iteration of linkedlist """
+      new_list = []
+      node = self.head
+      while node is not None:
+        new_list.append(node.data)
+        node = node.next
+      return new_list
+
+
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
@@ -180,6 +190,9 @@ if __name__ == '__main__':
     print(ll)
     ll.replace('eight', 'Blue Bunny')
     print(ll)
+    lst = ll.iterate()
+    for item in lst:
+      print(item)
     # ll.delete('blue')
     # ll.delete('purple')
     # ll.delete('eight')

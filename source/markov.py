@@ -57,9 +57,11 @@ class Markov_Chain(Dictogram):
     while self[word] != "###":  # while word isn't end token
       word = self.pick_word_from(self[word])  # pick random word
       sentence += ' ' + word  # append word to sentence
-      ret = sentence.capitalize() # capitalize first letter in sentence
-    return ret  
+    return sentence  
 
+
+#!  sample sentence with start and stop tokens
+# They think beyond the only option, but often there are trade-offs involved.
 
 def main():
   """ Calls some markov chain methods """
@@ -69,8 +71,6 @@ def main():
     # new_text = new_text.translate(translator)
   m_chain = Markov_Chain(text)
   print(m_chain)
-  # print('STARTERS: ', m_chain.sentence_starters)
-  # print('ENDERS: ', m_chain.sentence_enders)
   # print(m_chain.pick_word_from(m_chain['fish']))
   # for _, v in enumerate(m_chain.keys()):
   #   m_chain.pick_word_from(m_chain[v])

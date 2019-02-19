@@ -58,6 +58,20 @@ class Dictogram(dict, Histogram):
         freq = histogram.frequency(word)
         print('{!r} occurs {} times'.format(word, freq))
     print()
+
+  def pick_word(self):
+    """ randomly with weights picks a word from dictogram """
+    accu = 0
+    separators = []
+    words = [word for word in self.keys()]  # get list of keys in dict
+    for _, weight in self.items():  # iterate over items in dict
+      accu += weight  # add weight to separator
+      separators.append(accu) # append number to separators 
+    rand_num = random.randint(0, accu)  # grad a random number between 0 and accu
+    # enumerate through the separators
+    for i, s in enumerate(separators):
+      if rand_num <= s: # if rand num is less than or equal too separator
+        return words[i] # return the word
     
 
 def main():

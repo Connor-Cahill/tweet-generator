@@ -1,4 +1,4 @@
-from linkedlist import LinkedList
+from linkedList import LinkedList
 
 
 class HashTable(object):
@@ -38,7 +38,7 @@ class HashTable(object):
         TODO: Running time: O(?) Why and under what conditions?"""
         all_vals = []
         for b in self.buckets:  #   iterate through every bucket
-            for k, v in bucket.items(): #   in each bucket iterate through items
+            for k, v in b.iterate(): #   in each bucket iterate through items
                 all_vals.append(v)  #   for each item append value
         return all_vals #   return all values
 
@@ -54,16 +54,16 @@ class HashTable(object):
     def length(self):
         """Return the number of key-value entries by traversing its buckets.
         TODO: Running time: O(1) we are storing a size counter in the class"""
-        # TODO: Loop through all buckets
-        # TODO: Count number of key-value entries in each bucket
         return self.size #  returns the size of hashtable
 
     def contains(self, key):
         """Return True if this hash table contains the given key, or False.
         TODO: Running time: O(1) Hashtables have a constant lookup time"""
-        if key in self: #   checks if the key is in hashtable
-            return True 
-        return False
+        try:
+            self.get(key)   #  try hashtables get method
+            return True #  if it returns an item return true
+        except:
+            return False  #  if get method throws error return false
 
     def get(self, key):
         """Return the value associated with the given key, or raise KeyError.
@@ -72,12 +72,11 @@ class HashTable(object):
         # TODO: Check if key-value entry exists in bucket
         # TODO: If found, return value associated with given key
         # TODO: Otherwise, raise error to tell user get failed
-        if key not in self: #   check if key is in hashtable
-            raise KeyError('Key not found: {}'.format(key)) #   raise error if not
         index = self._bucket_index(key)
-        for item in self.buckets[index].items():
+        for item in self.buckets[index].iterate():
             if item[0] == key:
                 return item[1]
+        raise KeyError('Key not found: {}'.format(key)) #   raise error if not
 
 
     def set(self, key, value):
@@ -88,27 +87,24 @@ class HashTable(object):
         # TODO: If found, update value associated with given key
         # TODO: Otherwise, insert given key-value entry into bucket
         index = self._bucket_index(key) #   find bucket index for key
-        for item in self.buckets[index]:    # iterate over items in bucket
+        self.size += 1  #  increment size counter
+        for item in self.buckets[index].iterate():    # iterate over items in bucket
             if item[0] == key:  #   if item in bucket
+                self.size -= 1  #  item already in list, decrement counter
                 self.buckets[index].delete() #   DELETE item
         self.buckets[index].append((key, value)) #  append new item to bucket
-
-                   
-
-
-        
-
 
     def delete(self, key):
         """Delete the given key from this hash table, or raise KeyError.
         TODO: Running time: O(???) Why and under what conditions?"""
-        # TODO: Find bucket where given key belongs
-        # TODO: Check if key-value entry exists in bucket
-        # TODO: If found, delete entry associated with given key
-        # TODO: Otherwise, raise error to tell user delete failed
-        # Hint: raise KeyError('Key not found: {}'.format(key))
-        if key not in self:
-            raise KeyError('Key not found: {}'.format(key))
+        b = self.buckets[self._bucket_index(key)]  #  grab bucket key would be in 
+        item = b.find(lambda data: data[0] == key)  #  use linkedlist find method to grab the item
+        if item:  #  if item exists 
+            b.delete(item)  #  use linkedlist delete method to remove from bucket
+            self.size -= 1  #  decrement our size counter
+        else:
+            raise KeyError('KEY: {} was not found in hashtable.'.format(key))  #  key not in bucket, throw error
+        
         
 
 

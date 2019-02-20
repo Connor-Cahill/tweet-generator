@@ -91,19 +91,19 @@ class HashTable(object):
         for item in self.buckets[index].iterate():    # iterate over items in bucket
             if item[0] == key:  #   if item in bucket
                 self.size -= 1  #  item already in list, decrement counter
-                self.buckets[index].delete() #   DELETE item
+                self.buckets[index].delete(item) #   DELETE item
         self.buckets[index].append((key, value)) #  append new item to bucket
 
     def delete(self, key):
         """Delete the given key from this hash table, or raise KeyError.
         TODO: Running time: O(???) Why and under what conditions?"""
         b = self.buckets[self._bucket_index(key)]  #  grab bucket key would be in 
-        item = b.find(lambda data: data[0] == key)  #  use linkedlist find method to grab the item
-        if item:  #  if item exists 
-            b.delete(item)  #  use linkedlist delete method to remove from bucket
-            self.size -= 1  #  decrement our size counter
-        else:
-            raise KeyError('KEY: {} was not found in hashtable.'.format(key))  #  key not in bucket, throw error
+        for item in b.iterate(): #  iterate over items in bucket
+            if item[0] == key:  #  if item exists 
+                b.delete(item)  #  use linkedlist delete method to remove from bucket
+                self.size -= 1  #  decrement our size counter
+                return  #  end function!
+        raise KeyError('KEY: {} was not found in hashtable.'.format(key))  #  key not in bucket, throw error
         
         
 

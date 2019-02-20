@@ -95,13 +95,13 @@ class LinkedList(object):
     
     def replace(self, item, new_item):
       """ given an item in linked list replaces it """
-      node = self.head 
-      while node is not None:
-        if node.data == item:
-          node.data = new_item
-          return 
-        node = node.next
-      raise ValueError('Item not in linked list: {}'.format(item))
+      node = self.head  # grab first node in list
+      while node is not None: # iterate while node is something
+        if node.data == item: # if node's data is what we are looking for
+          node.data = new_item  # replace with inputted new item
+          return #  break function
+        node = node.next  # grab next node
+      raise ValueError('Item not in linked list: {}'.format(item))  # throws error if item not in linked list
 
     def iterate(self):
       """ allows for iteration of linkedlist """

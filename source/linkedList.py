@@ -142,9 +142,6 @@ class LinkedList(object):
           cur_node = cur_node.next  # get cur_node's next and set to cur_node
         raise ValueError('Item not found: {}'.format(item)) # Value not in linked list. throws an error
 
-        def iterate(self):
-          """ iterate over linked list """
-          pass
 
 
 

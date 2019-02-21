@@ -78,54 +78,26 @@ class HashTable(object):
                 return item[1]
         raise KeyError('Key not found: {}'.format(key)) #   raise error if not
 
-    #*NOTE: this set method uses CHAINING
-    # def set(self, key, value):
-    #     """Insert or update the given key with its associated value.
-    #     TODO: Running time: O(1) constant time to add to a hashtable"""
-    #     # TODO: Find bucket where given key belongs
-    #     # TODO: Check if key-value entry exists in bucket
-    #     # TODO: If found, update value associated with given key
-    #     # TODO: Otherwise, insert given key-value entry into bucket
-    #     index = self._bucket_index(key) #   find bucket index for key
-    #     self.size += 1  #  increment size counter
-    #     for item in self.buckets[index].iterate():    # iterate over items in bucket
-    #         if item[0] == key:  #   if item in bucket
-    #             self.size -= 1  #  item already in list, decrement counter
-    #             self.buckets[index].delete(item) #   DELETE item
-    #     self.buckets[index].append((key, value)) #  append new item to bucket
-    
-    #*NOTE: this set method uses LINEAR PROBING
     def set(self, key, value):
-        """ Inserts or updates given key with its associated value """
-        index = self._bucket_index(key)
-        self.size += 1
-        bucket = self.buckets[index]
-        if bucket.is_empty():
-            bucket.append((key, value))
-            return
-        elif bucket.is_empty() == False and bucket.head.data[0] == key:
-            bucket.head = None
-            bucket.tail = None
-            self.size -= 1
-            bucket.append((key, value))
-            return 
-        else:
-            while bucket.is_empty() == False:
-                if bucket.head.data[0] == key:
-                    bucket.head = None
-                    bucket.tail = None
-                    self.size -= 1
-                    bucket.append((key, value))
-                    return
-                if index + 1 < len(self.buckets):
-                    bucket = self.buckets[index + 1]
-                else:
-                    index = 0
-                    bucket = self.buckets[index]
-            bucket.append((key, value))
+        """Insert or update the given key with its associated value.
+        TODO: Running time: O(1) constant time to add to a hashtable"""
+        # TODO: Find bucket where given key belongs
+        # TODO: Check if key-value entry exists in bucket
+        # TODO: If found, update value associated with given key
+        # TODO: Otherwise, insert given key-value entry into bucket
+        index = self._bucket_index(key) #   find bucket index for key
+        self.size += 1  #  increment size counter
+        for item in self.buckets[index].iterate():    # iterate over items in bucket
+            if item[0] == key:  #   if item in bucket
+                self.size -= 1  #  item already in list, decrement counter
+                self.buckets[index].delete(item) #   DELETE item
+        self.buckets[index].append((key, value)) #  append new item to bucket
+    
+    
+        
+    
 
         
-
     def delete(self, key):
         """Delete the given key from this hash table, or raise KeyError.
         TODO: Running time: O(???) Why and under what conditions?"""
@@ -136,7 +108,8 @@ class HashTable(object):
                 self.size -= 1  #  decrement our size counter
                 return  #  end function!
         raise KeyError('KEY: {} was not found in hashtable.'.format(key))  #  key not in bucket, throw error
-        
+    
+
         
 
 
@@ -183,6 +156,6 @@ if __name__ == '__main__':
     # ht.set("louis", 9)
     # ht.set("blue", 91)
     # ht.set("black", 999)
-
     print(ht)
-    print(ht.buckets)
+    ht.delete("connor")
+    print(ht)

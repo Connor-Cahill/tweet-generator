@@ -23,13 +23,11 @@ class Bucket:
 
 
 class Hash_Table:
-  """
-  Hash Table implemented with linear probing. Currently this hash table is
-  restricted to the amount of buckets (init_size)
-  """
-  def __init__(self, init_size=8):
+  
+  def __init__(self, num_buckets=8):
     """ creates new instance of hash table """
-    self.buckets = [Bucket() for _ in range(init_size)]
+    self.buckets = [Bucket() for _ in range(num_buckets)]
+    self.num_buckets = num_buckets
     self.size = 0
 
   def __str__(self):
@@ -114,10 +112,11 @@ class Hash_Table:
         if bucket.data[0] == key: #  if bucket's key is the inputted key
           self.size -= 1  #  key already in hash table decrement counter
           break
-    if self.buckets_full():
-      self.more_buckets(key, value)
-      return
     bucket.data = (key, value)  #  assign new data to bucket
+    if self.buckets_full():
+      print('Buckets are full!')
+      self.more_buckets()
+      
         
         
       
@@ -134,7 +133,7 @@ class Hash_Table:
         if bucket.data[0] == key:  #  if key in bucket equal inputted key
           return bucket.data[1]  #  return the value
       index += 1  #  increment the index
-    raise KeyError('KEY: {} not in hashtable')  #  every node has been touch, no key, raise error
+    raise KeyError('KEY: {} not in hashtable'.format(key))  #  every node has been touch, no key, raise error
 
   def delete(self, key):
     """Delete the given key from hashtable or Raise Error """
@@ -163,14 +162,19 @@ class Hash_Table:
 
 
   #* Note key and value are for missed item appended
-  def more_buckets(self, key, value):
-    """ when hash table is 2/3 full creates new buckets """
+  def more_buckets(self):
+    """ copies all items in current hash table then makes new HT with more buckets """
     items  = self.items()
-    current_size = len(self.buckets)
-    self = Hash_Table(current_size * 2)
-    self.set(key, value)
+    new_size = len(self.buckets) * 2
+    print(new_size)
+    # self = Hash_Table(new_size)
+    self.__init__(new_size)
+    # print(self)
     for item in items:
       self.set(item[0], item[1])
+    return self
+    
+  
     
     
     
@@ -184,35 +188,45 @@ def test_ht():
   ht.set("lady", 122)
   ht.set("something", 14)
   ht.set("hello", 10)
-  print(ht)
+  # print(ht)
   ht.delete('hello')
   print(ht)
   ht.set("pink", 110)
   ht.set("black", 132)
-  print(ht)
-  print(ht.buckets)
   ht.set("other", 41)
+  print('Far')
   ht.set("lemur", 123123)
   ht.set("dogg", 1233)
   ht.set("dogecoin", 123144)
   ht.set("leee", 235)
   ht.set("okey", 5423)
   ht.set("ikey", 1231)
+  # print('not broken yet')
   ht.set("jakse", 9090)
   ht.set("cat", 913)
   ht.set("brown", 816)
+  ht.set("nanny", 8888)
+  # print(ht)
+  # # print(ht.size)
+  ht.set('brown', 12)
+  ht.set("nanny", 11)
+  # print('**FINISHED**')
   print(ht)
-  print(ht.buckets)
+  # print(ht.get('brown'))
 
 if __name__ == "__main__":
   test_ht()
-  # ht = Hash_Table()
-  # ht.set('I', 1)
-  # ht.set('V', 4)
-  # ht.set('X', 9)
-  # print(ht.buckets)
+  # ht = Hash_Table(4)
+  # print(ht.num_buckets)
+  # ht.set('green', 8)
+  # ht.set('yellow', 4)
+  # ht.set('blue', 1)
+  # ht.set('nevy', 12)
+  # ht.set('doge', 13)
+  # ht.set('something', 14)
+  # ht.set('nevy', 15)
+  # ht.set('cat', 16)
+  # ht.set('nephew', 17)
   # print(ht)
-  # ht.set('V', 5)
-  # ht.set('X', 10)
-  # print(ht.buckets)
-  # print(ht)
+  # print(ht.num_buckets)
+  # print('OVER WITH')

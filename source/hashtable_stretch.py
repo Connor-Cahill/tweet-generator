@@ -155,11 +155,8 @@ class Hash_Table:
   
   def buckets_full(self):
     """ if hash table is 2/3ish full returns true """
-    none_counter = 0
-    for b in self.buckets:
-      if not b.is_empty():
-        none_counter += 1
-    if none_counter / len(self.buckets) >= 3 / 4:
+    
+    if self.size / len(self.buckets) >= 2 / 3:
       return True
     else: 
       return False

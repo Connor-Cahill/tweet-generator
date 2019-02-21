@@ -114,6 +114,9 @@ class Hash_Table:
         if bucket.data[0] == key: #  if bucket's key is the inputted key
           self.size -= 1  #  key already in hash table decrement counter
           break
+    if self.buckets_full():
+      self.more_buckets(key, value)
+      return
     bucket.data = (key, value)  #  assign new data to bucket
         
         
@@ -150,38 +153,69 @@ class Hash_Table:
       index += 1  #  increment index 
     raise KeyError("KEY: {} was not found in hashtable.")  #  key not found, throw error
   
+  def buckets_full(self):
+    """ if hash table is 2/3ish full returns true """
+    none_counter = 0
+    for b in self.buckets:
+      if not b.is_empty():
+        none_counter += 1
+    if none_counter / len(self.buckets) >= 3 / 4:
+      return True
+    else: 
+      return False
 
-  def more_buckets(self):
+
+  #* Note key and value are for missed item appended
+  def more_buckets(self, key, value):
     """ when hash table is 2/3 full creates new buckets """
-    pass
+    items  = self.items()
+    current_size = len(self.buckets)
+    self = Hash_Table(current_size * 2)
+    self.set(key, value)
+    for item in items:
+      self.set(item[0], item[1])
+    
+    
     
 
 
 def test_ht():
   """ runs some test methods on hash table """
-  # ht = Hash_Table()
-  # ht.set("my_key", 5)
-  # ht.set("duder", 69)
-  # ht.set("lady", 122)
-  # ht.set("something", 14)
-  # ht.set("hello", 10)
-  # print(ht)
-  # ht.delete('hello')
-  # print(ht)
-  # ht.set("pink", 110)
-  # ht.set("black", 132)
-  # print(ht)
-  # print(ht.buckets)
+  ht = Hash_Table()
+  ht.set("my_key", 5)
+  ht.set("duder", 69)
+  ht.set("lady", 122)
+  ht.set("something", 14)
+  ht.set("hello", 10)
+  print(ht)
+  ht.delete('hello')
+  print(ht)
+  ht.set("pink", 110)
+  ht.set("black", 132)
+  print(ht)
+  print(ht.buckets)
+  ht.set("other", 41)
+  ht.set("lemur", 123123)
+  ht.set("dogg", 1233)
+  ht.set("dogecoin", 123144)
+  ht.set("leee", 235)
+  ht.set("okey", 5423)
+  ht.set("ikey", 1231)
+  ht.set("jakse", 9090)
+  ht.set("cat", 913)
+  ht.set("brown", 816)
+  print(ht)
+  print(ht.buckets)
 
 if __name__ == "__main__":
-  # test_ht()
-  ht = Hash_Table()
-  ht.set('I', 1)
-  ht.set('V', 4)
-  ht.set('X', 9)
-  print(ht.buckets)
-  print(ht)
-  ht.set('V', 5)
-  ht.set('X', 10)
-  print(ht.buckets)
-  print(ht)
+  test_ht()
+  # ht = Hash_Table()
+  # ht.set('I', 1)
+  # ht.set('V', 4)
+  # ht.set('X', 9)
+  # print(ht.buckets)
+  # print(ht)
+  # ht.set('V', 5)
+  # ht.set('X', 10)
+  # print(ht.buckets)
+  # print(ht)

@@ -113,9 +113,8 @@ class Hash_Table:
           self.size -= 1  #  key already in hash table decrement counter
           break
     bucket.data = (key, value)  #  assign new data to bucket
-    if self.buckets_full():
-      print('Buckets are full!')
-      self.more_buckets()
+    if self.buckets_full(): #  check if buckets are full
+      self.more_buckets()  #  call our more buckets metod
       
         
         
@@ -154,25 +153,21 @@ class Hash_Table:
   
   def buckets_full(self):
     """ if hash table is 2/3ish full returns true """
-    
-    if self.size / len(self.buckets) >= 2 / 3:
-      return True
+    if self.size / len(self.buckets) >= 2 / 3: #  is bucket 2/3 full?
+      return True # if yes, return True
     else: 
-      return False
+      return False # nope, return false
 
 
   #* Note key and value are for missed item appended
   def more_buckets(self):
     """ copies all items in current hash table then makes new HT with more buckets """
-    items  = self.items()
-    new_size = len(self.buckets) * 2
-    print(new_size)
-    # self = Hash_Table(new_size)
-    self.__init__(new_size)
-    # print(self)
-    for item in items:
-      self.set(item[0], item[1])
-    return self
+    items  = self.items() #  grab all items in current hash table
+    new_size = len(self.buckets) * 2  #  grab incremented number of buckets
+    self.__init__(new_size) #  create new hash table with incremented amount of buckets
+    for item in items:  #  iterate through all items in our items list
+      self.set(item[0], item[1])  #  re-set every item into our new hash table
+    return self # return the updated self
     
   
     

@@ -52,27 +52,42 @@ class Hash_Table:
       TODO: Running time: O(log n) we have to loop through every bucket and then every item"""
       # Collect all keys in each bucket
       all_keys = []
-      for bucket in self.buckets:
-          for key, value in bucket.items():
-              all_keys.append(key)
+      for b in self.buckets:  #  iterate through all buckets
+        if not b.is_empty():
+          all_keys.append(b.data[0])  #  append keys
       return all_keys
+  
+  def contains(self, key):
+    """ returns bool on whether key exists in hashtable """
+    index = self._bucket_index(key)
+    for _ in range(len(self.buckets)):
+      if index >= len(self.buckets):
+        bucket = self.buckets[index % len(self.buckets)]
+      else:
+        bucket = self.buckets[index]
+      if not bucket.is_empty():
+        if bucket.data[0] == key:
+          return True
+      index += 1
+    return False
 
   def values(self):
       """Return a list of all values in this hash table.
       TODO: Running time: O(?) Why and under what conditions?"""
       all_vals = []
-      for b in self.buckets:  #   iterate through every bucket
-          for k, v in b.iterate(): #   in each bucket iterate through items
-              all_vals.append(v)  #   for each item append value
-      return all_vals #   return all values
+      for b in self.buckets:  #  Iterate through all buckets
+        if not b.is_empty():
+          all_vals.append(b.data[1])  #  append values
+      return all_vals
 
   def items(self):
       """Return a list of all items (key-value pairs) in this hash table.
       TODO: Running time: O(???) Why and under what conditions?"""
       # Collect all pairs of key-value entries in each bucket
-      all_items = []
+      all_items = []  
       for bucket in self.buckets:
-          all_items.extend(bucket.items())
+          if not bucket.is_empty(): #  make sure bucket is not empty
+            all_items.append((bucket.data[0], bucket.data[1]))  #  appending key, value tuple 
       return all_items
 
   def length(self):
@@ -81,23 +96,25 @@ class Hash_Table:
       return self.size #  returns the size of hashtable
     
   def set(self, key, value):
-      """Insert or update the given key with its associated value. """     
-      index = self._bucket_index(key) #   find bucket index for key
-      self.size += 1  #  increment size counter
-      bucket = self.buckets[index]  #  grab starting bucket
-      if bucket.is_empty():  #  check if bucket is empty
-        bucket.data = (key, value)  #  if it is add the data
-        return  #  break the function 
-      #  loop until bucket key equal inputted key or bucket is empty
-      while bucket.is_empty() == False or bucket.data[0] != key:
-        index += 1  #  increment index 
-        if index >= len(self.buckets):  # if index greater than num buckets
-          bucket = self.buckets[index % len(self.buckets)]  #  mod the index
-        else:
-          bucket = self.buckets[index]  #  assign incremented index
-        if bucket.is_empty():
+    """Insert or update the given key with its associated value. """     
+    index = self._bucket_index(key) #   find bucket index for key
+    self.size += 1  #  increment size counter
+    bucket = self.buckets[index]  #  grab starting bucket
+    if bucket.is_empty():  #  check if bucket is empty
+      bucket.data = (key, value)  #  if it is add the data
+      return  #  break the function 
+    #  loop until bucket key equal inputted key or bucket is empty
+    while not bucket.is_empty() or self.contains(key):
+      index += 1  #  increment index 
+      if index >= len(self.buckets):  # if index greater than num buckets
+        bucket = self.buckets[index % len(self.buckets)]  #  mod the index
+      else:
+        bucket = self.buckets[index]  #  assign incremented index
+      if not bucket.is_empty():
+        if bucket.data[0] == key: #  if bucket's key is the inputted key
+          self.size -= 1  #  key already in hash table decrement counter
           break
-      bucket.data = (key, value)  #  assign new data to bucket
+    bucket.data = (key, value)  #  assign new data to bucket
         
         
       
@@ -110,8 +127,9 @@ class Hash_Table:
         bucket = self.buckets[index % len(self.buckets)] #  mod the index
       else:
         bucket = self.buckets[index]  #  assign new index
-      if bucket.data[0] == key:  #  if key in bucket equal inputted key
-        return bucket.data[1]  #  return the value
+      if not bucket.is_empty():
+        if bucket.data[0] == key:  #  if key in bucket equal inputted key
+          return bucket.data[1]  #  return the value
       index += 1  #  increment the index
     raise KeyError('KEY: {} not in hashtable')  #  every node has been touch, no key, raise error
 
@@ -124,30 +142,46 @@ class Hash_Table:
         bucket = self.buckets[index % len(self.buckets)]  #  mod index
       else:
         bucket = self.buckets[index]  #  assign new index
-      if bucket.data[0] == key:  #  if key in bucket equal inputted key 
-        bucket.delete() # delete the data from the bucket
-        self.size -= 1  #  decrement the size of hashtable
-        return  # break the function
+      if not bucket.is_empty(): # make sure bucket is NOT empty 
+        if bucket.data[0] == key:  #  if key in bucket equal inputted key 
+          bucket.delete() # delete the data from the bucket
+          self.size -= 1  #  decrement the size of hashtable
+          return  # break the function
       index += 1  #  increment index 
     raise KeyError("KEY: {} was not found in hashtable.")  #  key not found, throw error
+  
+
+  def more_buckets(self):
+    """ when hash table is 2/3 full creates new buckets """
+    pass
     
 
 
 def test_ht():
   """ runs some test methods on hash table """
-  ht = Hash_Table()
-  ht.set("my_key", 5)
-  ht.set("duder", 69)
-  ht.set("lady", 122)
-  ht.set("something", 14)
-  ht.set("hello", 10)
-  print(ht)
-  ht.delete('hello')
-  print(ht)
-  ht.set("pink", 110)
-  ht.set("black", 132)
-  print(ht)
-  print(ht.buckets)
+  # ht = Hash_Table()
+  # ht.set("my_key", 5)
+  # ht.set("duder", 69)
+  # ht.set("lady", 122)
+  # ht.set("something", 14)
+  # ht.set("hello", 10)
+  # print(ht)
+  # ht.delete('hello')
+  # print(ht)
+  # ht.set("pink", 110)
+  # ht.set("black", 132)
+  # print(ht)
+  # print(ht.buckets)
 
 if __name__ == "__main__":
-  test_ht()
+  # test_ht()
+  ht = Hash_Table()
+  ht.set('I', 1)
+  ht.set('V', 4)
+  ht.set('X', 9)
+  print(ht.buckets)
+  print(ht)
+  ht.set('V', 5)
+  ht.set('X', 10)
+  print(ht.buckets)
+  print(ht)

@@ -144,6 +144,10 @@ def test_ht():
   print(ht)
   ht.delete('hello')
   print(ht)
+  ht.set("pink", 110)
+  ht.set("black", 132)
+  print(ht)
+  print(ht.buckets)
 
 if __name__ == "__main__":
   test_ht()

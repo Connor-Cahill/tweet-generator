@@ -20,8 +20,6 @@ class Bucket:
     return ' [ {} ] '.format(self.data)
 
 
-
-
 class Hash_Table:
   
   def __init__(self, num_buckets=8):

@@ -21,7 +21,7 @@ class Node:
         """returns true if node has at least 1 child"""
         return self.left is not None or self.right is not None
 
-    def two_childre(self):
+    def two_children(self):
         """returns true if node has 2 children"""
         return self.right is not None and self.left is not None
 
@@ -133,7 +133,7 @@ class BinarySearchTree:
         return parent  # returns None! 
 
     def _find_parent_node_recursive(self, item, node, parent=None):
-        """returns parent node of node thats data matches item. Returns None if item not in bst"""
+        """returns parent node of node thats data matches item."""
         if node is None:
             # not found base case 
             return parent
@@ -145,5 +145,46 @@ class BinarySearchTree:
         elif item > node.data:
             # call func again with right child as node
             return self._find_parent_node_recursive(item, node.right, node)
+
+    def delete(self, item):
+        """remove item from tree if present"""
+        node  = self._find_node_recursive(item)
+        # check if node is a leaf
+        if node.is_leaf():
+            # find parent of node
+            parent = self._find_parent_node_recursive(node.data)
+            if parent.left == node:  # check if node is parents left child
+                parent.left = None  # remove it
+                self.size -= 1  # decrement size conuter
+                return
+            elif parent.right == node:  # check if node is parents right child
+                parent.right = None  # remove it 
+                self.size -= 1  #decrement size counter
+                return
+            else:
+                return None
+        # check if node has 2 children
+        elif node.two_children():
+            pass
+
+    def items_in_order(self):
+        """return an in-order list of all items in bst"""
+        items = []  # create empty arr for bst items 
+        # make sure tree isn't empty 
+        if not self.is_empty():
+            # traverse tree in order from root, append each node
+            self._traverse_in_order(self.root, items.append)
+        return items  #  return arr of items 
+
+    def _traverse_in_order_recursive(self, node, visit):
+        """traverse bst in order (DFS)"""
+        # break when node is nothing 
+        if node is not None:
+            # call again with left child
+            self._traverse_in_order_recursive(node.left, visit)
+            # call visit on node
+            visit(node)
+            # call func again with right child
+            self._traverse_in_order_recursive(node.right, visit)
 
 

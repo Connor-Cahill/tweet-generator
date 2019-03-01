@@ -31,7 +31,7 @@ class Node:
         left_height = self.left.height() if self.left is not None else -1
         # same as above but for right path down tree
         right_height = self.right.height() if self.right is not None else -1
-        # return the greater of the two paths down tree +1 (accounting for og node)
+        # return the greater of the two paths down tree +1
         return 1 + max(right_height, left_height)
 
 
@@ -221,3 +221,24 @@ class BinarySearchTree:
             self._traverse_post_order_recursive(node.right, visit)
             # call visit on node
             visit(node.data)
+
+    def items_level_order(self):
+        """return level order list of all items in bst"""
+        items = []  # empty arr for items
+        if not self.is_empty():  # make sure tree isnt empty
+            # traverse level order from root appending each node to items
+            self._traverse_level_order_iterative(self, self.root, items.append)
+        return items
+
+    def _traverse_level_order_iterative(self, start_node, visit):
+        """traverse bst with level-order traversal (BFS)"""
+        q = collections.deque()  # create empty queue 
+        q.append(start_node)  # append start node to queue
+        while len(q) > 0:  # loop while queue is not empty
+            node = q.popleft()  # pop item in queue
+            visit(node.data)  # call visit on node
+            if node.left is not None:  # check if left child
+                q.append(node.left)  # append to queue
+            if node.right is not None:  # check right child
+                q.append(node.right)  # append right child
+

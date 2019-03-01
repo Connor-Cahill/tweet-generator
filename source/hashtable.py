@@ -35,7 +35,7 @@ class HashTable(object):
 
     def values(self):
         """Return a list of all values in this hash table.
-        TODO: Running time: O(?) Why and under what conditions?"""
+        TODO: Running time: O(log n) we must loop through every bucket then every item"""
         all_vals = []
         for b in self.buckets:  #   iterate through every bucket
             for k, v in b.iterate(): #   in each bucket iterate through items
@@ -44,11 +44,11 @@ class HashTable(object):
 
     def items(self):
         """Return a list of all items (key-value pairs) in this hash table.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        TODO: Running time: O(log n) we must loop through every bucket and grab every item"""
         # Collect all pairs of key-value entries in each bucket
         all_items = [] # [(key, value), (key, value)]
-        for bucket in self.buckets:
-            all_items.extend(bucket.items())
+        for bucket in self.buckets:  
+            all_items.extend(bucket.items())  #  appends the tuple to list
         return all_items
 
     def length(self):
@@ -58,7 +58,7 @@ class HashTable(object):
 
     def contains(self, key):
         """Return True if this hash table contains the given key, or False.
-        TODO: Running time: O(1) Hashtables have a constant lookup time"""
+        TODO: Running time: O(n/b) where n is the items in our hashtable and b is the buckets"""
         try:
             self.get(key)   #  try hashtables get method
             return True #  if it returns an item return true
@@ -67,19 +67,19 @@ class HashTable(object):
 
     def get(self, key):
         """Return the value associated with the given key, or raise KeyError.
-        TODO: Running time: O(1) hashtables have a constant lookup time"""
-        index = self._bucket_index(key)
-        for item in self.buckets[index].iterate():
-            if item[0] == key:
-                return item[1]
-        raise KeyError('Key not found: {}'.format(key)) #   raise error if not
+        TODO: Running time: O(n/b) where n is the items in our hashtable and b is the buckets"""
+        index = self._bucket_index(key)  #  grab index of bucket
+        for item in self.buckets[index].iterate():  
+            if item[0] == key: #  if key in tuple == key
+                return item[1]  #  return the value 
+        raise KeyError('Key not found: {}'.format(key))  # raise error if not
 
     def set(self, key, value):
         """Insert or update the given key with its associated value.
-        TODO: Running time: O(1) constant time to add to a hashtable"""
-        index = self._bucket_index(key) #   find bucket index for key
+        TODO: Running time: O(n/b) where n is the items in our hashtable and b is the buckets"""
+        index = self._bucket_index(key)  #  find bucket index for key
         self.size += 1  #  increment size counter
-        for item in self.buckets[index].iterate():    # iterate over items in bucket
+        for item in self.buckets[index].iterate():  # iterate over items in bucket
             if item[0] == key:  #   if item in bucket
                 self.size -= 1  #  item already in list, decrement counter
                 self.buckets[index].delete(item) #   DELETE item
@@ -88,7 +88,7 @@ class HashTable(object):
       
     def delete(self, key):
         """Delete the given key from this hash table, or raise KeyError.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        TODO: Running time: O(n/b) where n is the items in our hashtable and b is the buckets"""
         b = self.buckets[self._bucket_index(key)]  #  grab bucket key would be in 
         for item in b.iterate(): #  iterate over items in bucket
             if item[0] == key:  #  if item exists 
@@ -140,10 +140,10 @@ if __name__ == '__main__':
     ht.set("something", 9)
     ht.set("else", 10)
     ht.set("connor", 19)
-    # ht.set("bobby", 100)
-    # ht.set("louis", 9)
-    # ht.set("blue", 91)
-    # ht.set("black", 999)
+    ht.set("bobby", 100)
+    ht.set("louis", 9)
+    ht.set("blue", 91)
+    ht.set("black", 999)
     print(ht)
     ht.delete("connor")
     print(ht)

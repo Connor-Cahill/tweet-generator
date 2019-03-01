@@ -7,6 +7,8 @@ app = Flask(__name__)
 def index():
     return render_template('main.html')
 
+
+
 @app.route('/tweets')
 def tweets():
   my_dict = h.histogram('histo_text.txt')

@@ -148,7 +148,7 @@ class BinarySearchTree:
 
     def delete(self, item):
         """remove item from tree if present"""
-        node  = self._find_node_recursive(item)
+        node = self._find_node_recursive(item)
         # check if node is a leaf
         if node.is_leaf():
             # find parent of node
@@ -159,7 +159,7 @@ class BinarySearchTree:
                 return
             elif parent.right == node:  # check if node is parents right child
                 parent.right = None  # remove it 
-                self.size -= 1  #decrement size counter
+                self.size -= 1  # decrement size counter
                 return
             else:
                 return None
@@ -174,7 +174,7 @@ class BinarySearchTree:
         if not self.is_empty():
             # traverse tree in order from root, append each node
             self._traverse_in_order(self.root, items.append)
-        return items  #  return arr of items 
+        return items  # return arr of items 
 
     def _traverse_in_order_recursive(self, node, visit):
         """traverse bst in order (DFS)"""
@@ -183,8 +183,41 @@ class BinarySearchTree:
             # call again with left child
             self._traverse_in_order_recursive(node.left, visit)
             # call visit on node
-            visit(node)
+            visit(node.data)
             # call func again with right child
             self._traverse_in_order_recursive(node.right, visit)
 
+    def items_pre_order(self):
+        """return a pre-order arr of all items in BinarySearchTree"""
+        items = []  # empty arr for items 
+        if not self.is_empty():  # check if emtpy
+            # traverse tree and append each item 
+            self._traverse_pre_order_recursive(self.root, items.append)
+        return items
 
+    def _traverse_pre_order_recursive(self, node, visit):
+        """traverse this bst pre-order DFS"""
+        # make sure node is there
+        if node is not None:
+            # visit node
+            visit(node.data)
+            self._traverse_pre_order_recursive(self.left, visit)
+            self._traverse_pre_order_recursive(self.right, visit)
+
+    def items_post_order(self, node, visit):
+        """returns items from bst post order"""
+        items = []  # set empty arr for  items 
+        if not self.is_empty():  # check if bst is empty
+            # traverse the tree post order and append to items
+            self._traverse_post_order_recursive(self, node, items.append)
+        return items
+
+    def _traverse_post_order_recursive(self, node, visit):
+        """traverse bst post order and vist each node"""
+        if node is not None:  # make sure node is there
+            # traverse down left side of tree
+            self._traverse_post_order_recursive(node.left, visit)
+            # traverse right side of tree
+            self._traverse_post_order_recursive(node.right, visit)
+            # call visit on node
+            visit(node.data)

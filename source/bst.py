@@ -114,3 +114,32 @@ class BinarySearchTree:
         elif item > node.data: 
             return self._find_node_recursive(item, node.right) # call again assending right down tree
 
+    def _find_parent_node_iterative(self, item):
+        """finds the parent node of a node thats data equals item"""
+        node = self.root # get starting node 
+        parent = None # parent set to none to start
+        while node is not None:
+            # check if the nodes data equals item
+            if item == node.data:
+                return parent
+            parent = node # assign parent as current node
+            elif item < node.data: # if item larger than nodes data
+                node = node.left # go down left side of tree
+            elif item > node.data: # check if item larger
+                node = node.right # continue down right side of tree
+        return parent # returns None! 
+
+    def _find_parent_node_recursive(self, item, node, parent=None):
+        """returns parent node of node thats data matches item. Returns None if item not in bst"""
+        if node is None:
+            # not found base case 
+            return parent
+        # check if item less than data
+        elif item < node.data:
+            # call func again with left child as node
+            return self._find_parent_node_recursive(item, node.left, node)
+        # check if item is larger
+        elif item > node.data:
+            # call func again with right child as node
+            return self._find_parent_node_recursive(item, node.right, node)
+

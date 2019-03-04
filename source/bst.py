@@ -15,7 +15,7 @@ class BinaryTreeNode(object):
 
     def is_leaf(self):
         """Return True if this node is a leaf (has no children)."""
-        return self.left is None and self.right is None  #  returns true if node has no children
+        return self.left is None and self.right is None  # returns true if node has no children
 
     def is_branch(self):
         """Return True if this node is a branch (has at least one child)."""
@@ -162,17 +162,24 @@ class BinarySearchTree(object):
     def delete(self, item):
         """Remove given item from this tree, if present, or raise ValueError."""
         # based on how many children the node containing the given item has and
-        pass
         node = self._find_node_recursive(item)
-        # if node.is_leaf():
-        #      parent = self._find_parent_node_recursive(node.data)
-        # if parent.left == node:
-        #     parent.left = None
-        #     return
-        # else:
-        #     parent.right = None
-        # elif node.two_children():
-        #   pass
+        if node.is_leaf():
+             parent = self._find_parent_node_recursive(node.data)
+            if parent.left == node:
+                parent.left = None
+                return
+            else:
+                parent.right = None
+        elif node.two_children():
+            node = self._find_node_recursive(item, self.root)  # finds node 
+            parent = self._find_parent_node_recursive(item, self.root)  # finds parent of node
+            child_node = node.right  #  gets right child of node
+            while not child_node.is_leaf():
+                if child_node.left <= child_node:
+                    child_node = child_node.left
+            
+
+
 
         # implement new helper methods for subtasks of the more complex cases
 

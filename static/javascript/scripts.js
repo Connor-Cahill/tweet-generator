@@ -1,6 +1,6 @@
 const contentArea = document.getElementById('quote');
 function setQuote() {
-  fetch('/tweets')
+  axios.get('/tweets')
   .then(res => res.json())
   .then((tweet) => {
     contentArea.innerHTML = tweet.tweet

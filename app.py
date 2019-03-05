@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template
-import histogram as h
+from source.markov import Markov_Chain
 
 app = Flask(__name__)
 
@@ -11,6 +11,8 @@ def index():
 
 @app.route('/tweets')
 def tweets():
-  my_dict = h.histogram('histo_text.txt')
-  tweet = h.generate_sentence(my_dict, 15)
+  with open('histo_text.txt') as file:
+    text = file.read()
+  markov_chain = Markov_Chain(text)
+  tweet = markov_chain.gen_sentence_2nd_order()
   return jsonify({ 'tweet': tweet })

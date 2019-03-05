@@ -1,6 +1,6 @@
-from dictogram import Dictogram
 import nltk
 import string, random
+from source.dictogram import Dictogram
 
 class Markov_Chain(Dictogram):
   """ Markov Chain class """
@@ -54,10 +54,26 @@ class Markov_Chain(Dictogram):
           self[word_pair] = Dictogram()
         # run add count method with 3rd word out
         self[word_pair].add_count(words[i + 2])
-
-
-
   
+  #* Test this method
+  def create_n(self, sentence, n):
+    """ creates a nth order markov chain """
+    words = sentence.split(' ') 
+    ends = '!?.'
+    # make sure there is enough words
+    if len(words) > n:
+      # loop over length of words - order
+      for i in range(len(words) - n):
+        # creates tuple of 'n' words 
+        word_tup = tuple(word for word in words[i:i+n])
+        # check if enough words in tuple
+        if len([i for i in word_tup if i[-1] not in ends]) == n:
+          if word_tup not in self:
+            # if tup not in self, create new dict
+            self[word_tup] = Dictogram()
+          # adds nth word out
+          self[word_tup].add_count(words[i + n])  # dictograms add_count method
+
   def pick_word_from(self, dictogram):
     """Given a dictogram returns a probable word """
     accumulator = 0
@@ -72,15 +88,6 @@ class Markov_Chain(Dictogram):
     for i, s in enumerate(seperators):
       if rand_num <= s:
         return words[i] 
-  
-  #! I should not need this method. I dislike it
-  def find_compliment(self, item, index):
-    """ returns pair of word in markov chain """
-    items = [item for item in self.keys()]  # creates arr of keys
-    for i in range(len(items)):  #  iterate over
-      if items[i][index] == item: # find item 
-        return items[i]  #  return pair
-   
 
   #! currently only words for first order markov chain
   def generate_sentence(self):
@@ -110,12 +117,10 @@ class Markov_Chain(Dictogram):
     return ' '.join(sentence_list)
 
 
-
-  
-
-
-#!  sample sentence with start and stop tokens
+#*  sample sentences with start and stop tokens
 # They think beyond the only option, but often there are trade-offs involved.
+# What distinguishes Pragmatic Programmers? - 2nd order
+# We feel it’s an attitude, a style, a philosophy of approaching problems and their solutions. - 2nd order
 
 def main():
   """ Calls some markov chain methods """
@@ -124,12 +129,10 @@ def main():
     # new_text = text.lower()
     # new_text = new_text.translate(translator)
   m_chain = Markov_Chain(text)
-  print(m_chain)
+  # print(m_chain)
   # print(m_chain.pick_word_from(m_chain['fish']))
   # for _, v in enumerate(m_chain.keys()):
   #   m_chain.pick_word_from(m_chain[v])
-  print('===================================')
-  print(m_chain.sentence_starters)
   print(m_chain.gen_sentence_2nd_order())
 
 

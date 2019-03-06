@@ -164,7 +164,7 @@ class BinarySearchTree(object):
         # based on how many children the node containing the given item has and
         node = self._find_node_recursive(item)
         if node.is_leaf():
-             parent = self._find_parent_node_recursive(node.data)
+            parent = self._find_parent_node_recursive(node.data)
             if parent.left == node:
                 parent.left = None
                 return
@@ -173,15 +173,15 @@ class BinarySearchTree(object):
         elif node.two_children():
             node = self._find_node_recursive(item, self.root)  # finds node 
             parent = self._find_parent_node_recursive(item, self.root)  # finds parent of node
-            child_node = node.right  #  gets right child of node
+            child_node = node.right  # gets right child of node
+            smallest = child_node
             while not child_node.is_leaf():
                 if child_node.left <= child_node:
                     child_node = child_node.left
-            
-
-
-
-        # implement new helper methods for subtasks of the more complex cases
+                    # if child node is less than current smallest
+                    if smallest >= child_node:
+                        # set smallest equal to child node
+                        smallest = child_node
 
     def items_in_order(self):
         """Return an in-order list of all items in this binary search tree."""

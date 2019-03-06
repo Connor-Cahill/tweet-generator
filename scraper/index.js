@@ -32,6 +32,7 @@ async function getScriptLinks() {
     const html = await grabHTML('http://transcripts.foreverdreaming.org/viewforum.php?f=631');
     const $ = cheerio.load(html); // grab the html
     const routes = []; // array for our links
+    // eslint-disable-next-line
     $('.topictitle a').each(function () {
       const route = $(this).attr('href'); // get the href attribute from tag
       if (route.indexOf('transcript') > -1) {
@@ -42,6 +43,19 @@ async function getScriptLinks() {
     return routes; // return routes arr
     // error handling
   } catch (err) {
+    console.log(err);
+  }
+}
+
+async function saveQuotes(link, episode) {
+  try {
+    const quotes = await getSVQuote(link);
+    // eslint-disable-next-line
+    const filePath = path.join(__dirname, 'Transcripts', episode + '.txt');
+    const text = quotes.join('\n');
+    await fs.writeFileSync(filePath, text);
+  } catch (err) {
+    // eslint-disable-next-line no-console
     console.log(err);
   }
 }

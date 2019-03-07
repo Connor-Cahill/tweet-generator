@@ -9,10 +9,10 @@ class Markov_Chain(Dictogram):
     super(Markov_Chain, self).__init__() # creates new instance of Markov Chain
     self.sentence_starters = [] # list of words that start sentences
     if text is not None:
-      sentences = nltk.sent_tokenize(text)  #*  nltk.sent_tokenize returns an array of text split by sentences
-      for sent in sentences:
-        sent = sent.replace('\n', ' ')  # replace newline chars in each sentence
-        self.create_two(sent) # pass each sentence through the create method
+        self.create_two(text)
+      # sentences = nltk.sent_tokenize(text)  #*  nltk.sent_tokenize returns an array of text split by sentences
+      # for sent in sentences:
+        # self.create_two(sent) # pass each sentence through the create method
       
 
   def create(self, sentence):

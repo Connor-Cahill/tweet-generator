@@ -13,7 +13,7 @@ def index():
 @app.route('/tweets')
 def tweets():
     """Sends a json object containing a randomly generated tweet """
-    with open('histo_text.txt') as file:
+    with open('review_text_file.txt') as file:
         text = file.read()
     markov_chain = Markov_Chain(text)
     tweet = markov_chain.gen_sentence_2nd_order()

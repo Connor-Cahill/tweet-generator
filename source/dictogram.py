@@ -1,5 +1,5 @@
 import re, random, string, sys
-from source.histogram import Histogram
+from histogram import Histogram
 
 class Dictogram(dict, Histogram):
   ''' Dictogram is a histogram implemented as a subclass of dict class '''

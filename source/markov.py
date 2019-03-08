@@ -1,6 +1,10 @@
 import nltk
-import string, random
-from source.dictogram import Dictogram
+import random 
+import json
+import pandas as pd
+import numpy
+import re
+from dictogram import Dictogram
 
 class Markov_Chain(Dictogram):
   """ Markov Chain class """
@@ -9,15 +13,14 @@ class Markov_Chain(Dictogram):
     super(Markov_Chain, self).__init__() # creates new instance of Markov Chain
     self.sentence_starters = [] # list of words that start sentences
     if text is not None:
-        self.create_two(text)
-      # sentences = nltk.sent_tokenize(text)  #*  nltk.sent_tokenize returns an array of text split by sentences
-      # for sent in sentences:
-        # self.create_two(sent) # pass each sentence through the create method
-      
+      sentences = nltk.sent_tokenize(text)  #  nltk.sent_tokenize returns an array of text split by sentences
+      for sent in sentences:
+          if len(sent) > 4:
+            self.create_two(sent) # pass each sentence through the create method
 
-  def create(self, sentence):
-    """creates a first order markov chain """
-    words = sentence.split(' ') # creates list of words in inputted sentence
+  def create(self, words):
+    """Creates a first order markov chain """
+    words = words.split(' ')
     if words[0] not in self:  # checks to see if starting word in dict 
       self[words[0]] = Dictogram() # creates list to keep track of start value
       self.sentence_starters.append(words[0]) # add word to sentence starters list
@@ -25,10 +28,11 @@ class Markov_Chain(Dictogram):
     last_index = len(words) -1 #  grab last index in words list
     if words[last_index] not in self:
       self[words[last_index]] = "###" # add the end token
-    for i in range(len(words) - 1): ## -1 to account for word after 
+    for i in range(len(words) - 1): # -1 to account for word after 
       if words[i] not in self:  # if word not in self
         self[words[i]] = Dictogram()  # add empty dictogram for word
-      self[words[i]].add_count(words[i + 1])  # call dictograms add_count method with the words that follows
+    if not isinstance(self[words[i]], str):
+        self[words[i]].add_count(words[i + 1])  # call dictograms add_count method with the words that follows
   
   def create_two(self, sentence):
     """creates and compiles 2nd order markov chain"""
@@ -39,7 +43,7 @@ class Markov_Chain(Dictogram):
     if len(words) > 2:
       # add first 2 words to sentence starters
       self.sentence_starters.append((words[0], words[1]))
-      last_index = len(words) -1 #  grab last index in words list
+      last_index = len(words) - 1 #  grab last index in words list
       # get last word pair in sentence (last 2 words)
       last_pair = (words[last_index - 1], words[last_index])
       if last_pair not in self:
@@ -53,7 +57,8 @@ class Markov_Chain(Dictogram):
           # create a new dictogram 
           self[word_pair] = Dictogram()
         # run add count method with 3rd word out
-        self[word_pair].add_count(words[i + 2])
+        if not isinstance(self[word_pair], str):
+            self[word_pair].add_count(words[i + 2])
   
   #* Test this method
   def create_n(self, sentence, n):
@@ -136,6 +141,31 @@ def main():
   print(m_chain.gen_sentence_2nd_order())
 
 
+def test_the_markov():
+    """Runs test on markov"""
+    df_csv = pd.read_csv('employee_reviews.csv', usecols=[6, 7, 8])
+    df = json.loads(df_csv.to_json())
+    pros_list = [item for item in df['pros'].values()]
+    cons_list = [item for item in df['cons'].values()]
+
+    output_list = []
+    for i in range(len(pros_list)):
+        pro = pros_list[i]
+        con = cons_list[i]
+        if len(pro) > 8:
+            output_list.append(pro)
+        else:
+            print('pro too small')
+        if len(con) > 8:
+            output_list.append(con)
+        else:
+            print('con too small')
+    m_chain = Markov_Chain(output_list)
+    print(m_chain.generate_sentence())
+
 if __name__ == "__main__":
-  main()
-  
+    with open('big-text.txt') as file:
+        text = file.read()
+    text = text.replace('\n', ' ')
+    mark = Markov_Chain(text)
+    print(mark.gen_sentence_2nd_order())

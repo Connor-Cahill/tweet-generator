@@ -3,12 +3,13 @@ import random
 import json
 import pandas as pd
 import numpy
+import pickle
 import re
-from dictogram import Dictogram
+from source.dictogram import Dictogram
 
 class Markov_Chain(Dictogram):
   """ Markov Chain class """
-  def __init__(self, text=None):
+  def __init__(self, text=None, dictogram=None):
     """Initiates new instance of Markov Chain class """
     super(Markov_Chain, self).__init__() # creates new instance of Markov Chain
     self.sentence_starters = [] # list of words that start sentences
@@ -17,6 +18,8 @@ class Markov_Chain(Dictogram):
       for sent in sentences:
           if len(sent) > 4:
             self.create_two(sent) # pass each sentence through the create method
+    if dictogram is not None:
+        self = dictogram
 
   def create(self, words):
     """Creates a first order markov chain """
@@ -59,6 +62,38 @@ class Markov_Chain(Dictogram):
         # run add count method with 3rd word out
         if not isinstance(self[word_pair], str):
             self[word_pair].add_count(words[i + 2])
+
+  def create_two_str(self, sent):
+    """Creates a 2nd order markov chain using strings instead of tuples """
+    words = sent.split(' ')
+    window = ''
+    if len(words) > 2:
+        # load first 2 words in window
+        window += '{} {}'.format(words[0], words[1])
+        # add words to sentence starters
+        self.sentence_starters.append(window)
+        # reset window
+        window = ''
+        # get last index
+        last_indx = len(words) - 1
+        # load last pair into window
+        window += words[last_indx - 1] + words[last_indx]
+        # is the pair already in self?
+        if window not in self:
+            # add the stop token indicator
+            self[window] = '###'
+        # loop through word list
+        for i in range(len(words) - 2):
+            # reset the window
+            window = ''
+            # add new values to window
+            window += '{} {}'.format(words[i], words[i + 1])
+            if window not in self:
+                self[window] = Dictogram()
+            if not isinstance(self[window], str):
+                # add count of 2nd word out
+                self[window].add_count(words[i + 2])
+
   
   #* Test this method
   def create_n(self, sentence, n):
@@ -121,6 +156,33 @@ class Markov_Chain(Dictogram):
 
     return ' '.join(sentence_list)
 
+    def gen_sentence_2nd_order_str(self):
+        """Generates a sentence for higher order markov chain string implementation"""
+        sentence_list = []
+        # get random sentence starter
+        word_pair = random.choice(self.sentence_starters)
+        word_pair = word_pair.split(' ')
+        sentence_list.append(word_pair[0])
+        sentence_list.append(word_pair[1])
+        # iterate until stop token
+        while self[word_pair] != '###':
+            word = self.pick_word_from(self[word_pair])
+            sentence_list.append(word)
+            word_pair = '{} {}'.format(sentence_list[-2], sentence_list[-1])
+        return ' '.join(sentence_list)
+
+
+
+  def serialize_markov(self, file):
+      """Serializes a large markov chain to a file that can later be retrieved"""
+      with open(file) as cur_file:
+        pickle.dump(self, cur_file)
+
+
+  def deserialize_markov(self, file):
+      """Retrieves and deserializes markov chain from inputted file"""
+      with open(file) as cur_file:
+        return pickle.load(cur_file)
 
 #*  sample sentences with start and stop tokens
 # They think beyond the only option, but often there are trade-offs involved.
@@ -162,6 +224,7 @@ def test_the_markov():
             print('con too small')
     m_chain = Markov_Chain(output_list)
     print(m_chain.generate_sentence())
+
 
 if __name__ == "__main__":
     with open('big-text.txt') as file:

@@ -21,6 +21,8 @@ class Markov_Chain(Dictogram):
     if dictogram is not None:
         self = dictogram
 
+
+
   def create(self, words):
     """Creates a first order markov chain """
     words = words.split(' ')
@@ -226,9 +228,12 @@ def test_the_markov():
     print(m_chain.generate_sentence())
 
 
-if __name__ == "__main__":
-    with open('big-text.txt') as file:
+def small_test_markov():
+    with open('histo_text.txt') as file:
         text = file.read()
-    text = text.replace('\n', ' ')
-    mark = Markov_Chain(text)
-    print(mark.gen_sentence_2nd_order())
+    m_chain = Markov_Chain(text)
+    print(m_chain.gen_sentence_2nd_order())
+
+
+if __name__ == "__main__":
+    small_test_markov()

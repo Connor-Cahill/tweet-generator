@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template
 from source.markov import Markov_Chain
 from markov import markov, sentence_starters
+from gen_sent import Tweet_Generator 
 import pickle
 import json
 
@@ -33,6 +34,7 @@ def generate_markov():
     serialize_markov(mark, 'markov.pickle')
     serialize_sent_starters(mark.sentence_starters, 'sent_starters.pickle')
 
+
 @app.route('/')
 def index():
     """Renders the main.html template at GET: '/' """
@@ -42,8 +44,12 @@ def index():
 @app.route('/tweets')
 def tweets():
     """Sends a json object containing a randomly generated tweet """
-    m_chain = Markov_Chain(None, markov) 
-    m_chain.sentence_starters = sentence_starters
+    #m_chain = Markov_Chain(None, markov) 
+    #tg = Tweet_Generator(m_chain, sentence_starters)
+    #tweet = tg.generate_sentence()
+    with open('big-text.txt') as file:
+        big_text = file.read()
+    m_chain = Markov_Chain(big_text)
     tweet = m_chain.gen_sentence_2nd_order()
     return jsonify({'tweet': tweet})
 
